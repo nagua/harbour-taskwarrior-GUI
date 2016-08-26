@@ -42,10 +42,10 @@ Page {
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
-            MenuItem {
+            /*MenuItem {
                 text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-            }
+                onClicked: pageStack.push(Qt.resolvedUrl("Tasklist.qml"))
+            }*/
         }
 
         // Tell SilicaFlickable the height of its content.
@@ -54,20 +54,41 @@ Page {
         // Place our content in a Column.  The PageHeader is always placed at the top
         // of the page, followed by our content.
 
-        Column {
-            id: column
+        ListModel {
+            id: pagesModel
 
-            width: page.width
-            spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
+            ListElement {
+                page: "Tasklist.qml"
+                title: "Tasklist"
+                //section: "Views"
             }
-            Label {
-                x: Theme.paddingLarge
-                text: qsTr("Hello Sailors")
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
+        }
+
+        SilicaListView {
+            id: listView
+            anchors.fill: parent
+            model: pagesModel
+
+            header: PageHeader { title: "Taskwarrior" }
+            /*section {
+                property: 'section'
+                delegate: SectionHeader {
+                    text: section
+                }
+            }*/
+            delegate: BackgroundItem {
+                width: listView.width
+                Label {
+                    id: firstName
+                    text: model.title
+                    color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                    anchors.verticalCenter: parent.verticalCenter
+                    x: Theme.horizontalPageMargin
+                }
+                onClicked: pageStack.push(Qt.resolvedUrl(page))
             }
+
+            VerticalScrollDecorator {}
         }
     }
 }

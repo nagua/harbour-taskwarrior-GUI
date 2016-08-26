@@ -19,8 +19,6 @@ SOURCES += src/Taskwarrior.cpp \
 
 OTHER_FILES += qml/Taskwarrior.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
     rpm/Taskwarrior.changes.in \
     rpm/Taskwarrior.spec \
     rpm/Taskwarrior.yaml \
@@ -41,4 +39,8 @@ TRANSLATIONS += translations/Taskwarrior-de.ts
 
 HEADERS += \
     src/taskexecuter.h
+
+DISTFILES += \
+    qml/pages/Tasklist.qml \
+    qml/pages/MainPage.qml
 
