@@ -28,13 +28,14 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import com.nagua 1.0
+import eu.nagua 1.0
 
 
 Page {
     id: page
+    property string args
 
     TaskExecuter {
         id: executer
@@ -46,7 +47,7 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
-                text: qsTr("Sync Data")
+                text: qsTr("Load Data")
                 onClicked: getData()
             }
         }
@@ -54,42 +55,76 @@ Page {
         SilicaListView {
             id: listView
             model: ListModel {
-                id: dmodel
+                id: taskModel
+                property bool ready: false
             }
-            //model: 20
 
             header: PageHeader {
                 title: qsTr("Task list")
             }
 
+            opacity: taskModel.ready ? 1.0 : 0.0
+            Behavior on opacity { FadeAnimation {} }
+
             anchors.fill: parent
             delegate: BackgroundItem {
                 id: delegate
+                property int tid: model.id;
 
                 Label {
                     x: Theme.paddingLarge
-                    //text: qsTr("Item") + " " + index
-                    text: listdata
+                    text: description
                     anchors.verticalCenter: parent.verticalCenter
                     color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
                 }
-                onClicked: console.log("Clicked " + index)
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("DetailView.qml"), {data: model});
+                }
             }
 
             VerticalScrollDecorator {}
         }
     }
 
+    Column {
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        BusyIndicator {
+            id: ind
+            running: !taskModel.ready
+            size: BusyIndicatorSize.Large
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        InfoLabel {
+            opacity: ind.opacity
+            text: qsTr("Loading")
+        }
+    }
+
+    Component.onCompleted: getData();
+
     function getData()
     {
-        console.log("Foo")
-        var json_str = executer.executeTask(["status:pending", "export"]);
-        console.log(json_str)
-        var json = JSON.parse(json_str);
-        for(var i = 0; i < json.length; i++)
-        {
-            dmodel.append( { listdata: json[i].description })
+        // Get arguments from MainPage and split them on whitespace
+        // also add "export"
+        var args = page.args.match(/(?:[^\s"]+|"[^"]*")+/g);
+        args.push("export");
+
+        // Run taskwarrior
+        var task_json_str = executer.executeTask(args);
+        console.log(task_json_str);
+
+        // Parse JSON Data
+        var task_data = JSON.parse(task_json_str);
+        // Sort data by urgency
+        task_data.sort(function(a,b){ return b.urgency - a.urgency; });
+
+        // Clear model and add new items
+        taskModel.clear();
+        for(var i = 0; i < task_data.length; i++) {
+            taskModel.append( task_data[i] );
         }
+        taskModel.ready = true;
     }
 }
 

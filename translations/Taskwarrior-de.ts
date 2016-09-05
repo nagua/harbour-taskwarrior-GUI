@@ -9,13 +9,24 @@
     </message>
 </context>
 <context>
+    <name>DetailView</name>
+    <message>
+        <source>Stuff</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tasklist</name>
     <message>
-        <source>Sync Data</source>
+        <source>Task list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Task list</source>
+        <source>Load Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

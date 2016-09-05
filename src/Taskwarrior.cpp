@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> v(SailfishApp::createView());
 
-    qmlRegisterType<TaskExecuter>("com.nagua", 1, 0, "TaskExecuter");
+    qmlRegisterType<TaskExecuter>("eu.nagua", 1, 0, "TaskExecuter");
     v->setSource(SailfishApp::pathTo("qml/Taskwarrior.qml"));
     v->show();
 

@@ -28,9 +28,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import com.nagua 1.0
 
 
 Page {
@@ -59,8 +58,14 @@ Page {
 
             ListElement {
                 page: "Tasklist.qml"
-                title: "Tasklist"
-                //section: "Views"
+                title: "All Tasks"
+                arguments: "status:pending"
+            }
+
+            ListElement {
+                page: "Tasklist.qml"
+                title: "RobotING"
+                arguments: "status:pending project:RobotING"
             }
         }
 
@@ -85,7 +90,9 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     x: Theme.horizontalPageMargin
                 }
-                onClicked: pageStack.push(Qt.resolvedUrl(page))
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl(model.page), {args: model.arguments})
+                }
             }
 
             VerticalScrollDecorator {}
