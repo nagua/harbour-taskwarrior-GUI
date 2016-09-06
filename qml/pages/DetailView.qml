@@ -33,8 +33,9 @@ Page {
                 label: qsTr("Description")
                 text: description
             }
-            DatePicker {
-                date: new Date(convert_date(due))
+            TextField {
+                label: qsTr("Due date")
+                text: convert_date(due)
             }
 
         }
@@ -53,7 +54,6 @@ Page {
         var second = date.slice(13, 15);
 
         var utc_date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + "Z";
-        console.log(utc_date)
         return utc_date;
     }
 }
