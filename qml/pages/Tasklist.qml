@@ -78,7 +78,7 @@ Page {
                     color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
                 }
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("DetailView.qml"), {data: model});
+                    pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
                 }
             }
 

@@ -4,8 +4,9 @@ import eu.nagua 1.0
 
 Page {
     id: page
-    //property variant taskData;
-    //property string description: taskData ? taskData.description : ""
+    property variant taskData;
+    property string description: taskData ? taskData.description : ""
+    property string due: taskData ? taskData.due : ""
 
     TaskExecuter {
         id: executer
@@ -20,12 +21,40 @@ Page {
                 onClicked: console.log(taskData.description)
             }
         }
+
         Column {
             anchors.fill: parent
-            InfoLabel {
-                text: qsTr("Stuff")
+            spacing: Theme.paddingMedium
+
+            SectionHeader {
+                text: qsTr("Detail View")
             }
+            TextField {
+                label: qsTr("Description")
+                text: description
+            }
+            DatePicker {
+                date: new Date(convert_date(due))
+            }
+
         }
+    }
+
+    function convert_date(date) {
+        // Ex: 20160901T110008Z
+        if( date.length < 15)
+            return Date.now()
+
+        var year   = date.slice(00, 04);
+        var month  = date.slice(04, 06);
+        var day    = date.slice(06, 08);
+        var hour   = date.slice(09, 11);
+        var minute = date.slice(11, 13);
+        var second = date.slice(13, 15);
+
+        var utc_date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + "Z";
+        console.log(utc_date)
+        return utc_date;
     }
 }
 
