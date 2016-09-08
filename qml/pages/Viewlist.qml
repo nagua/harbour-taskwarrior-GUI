@@ -63,7 +63,29 @@ Page {
             }*/
         }
 
-        header: PageHeader { title: "Taskwarrior" }
+        header: Column {
+            width: parent.width
+            PageHeader {
+                width: parent.width
+                title: "Taskwarrior"
+            }
+            Row {
+                width: parent.width
+                TextField {
+                    id: query
+                    width: parent.width - 50
+                    label: "query"
+                }
+                IconButton {
+                    width: 20
+                    icon.source: "image://theme/icon-m-enter"
+                    onClicked: {
+                        taskWindow.taskArguments = query.text;
+                        pageStack.navigateBack();
+                    }
+                }
+            }
+        }
         /*section {
             property: 'section'
             delegate: SectionHeader {
