@@ -26,10 +26,6 @@ OTHER_FILES += qml/Taskwarrior.qml \
     Taskwarrior.desktop
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
-DISTFILES += icons/86x86/Taskwarrior.png \
-icons/108x108/Taskwarrior.png \
-icons/128x128/Taskwarrior.png \
-icons/256x256/Taskwarrior.png
 
 # to disable building translations every time, comment out the
 # following CONFIG line
