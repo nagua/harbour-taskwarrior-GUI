@@ -35,25 +35,34 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
-    ListModel {
-        id: pagesModel
-
-        ListElement {
-            page: "Tasklist.qml"
-            title: "All Tasks"
-            arguments: "status:pending"
-        }
-
-        ListElement {
-            page: "Tasklist.qml"
-            title: "RobotING"
-            arguments: "status:pending project:RobotING"
-        }
-    }
-
     SilicaListView {
         id: listView
         anchors.fill: parent
+
+        ListModel {
+            id: pagesModel
+
+            ListElement {
+                page: "Tasklist.qml"
+                title: "All tasks"
+                arguments: "status:pending"
+                section: "Smart"
+            }
+
+            ListElement {
+                page: "Tasklist.qml"
+                title: "Due today"
+                arguments: "status:pending due:today"
+                section: "Smart"
+            }
+
+            ListElement {
+                page: "Tasklist.qml"
+                title: "RobotING"
+                arguments: "status:pending project:RobotING"
+                section: "Custom"
+            }
+        }
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
@@ -86,12 +95,13 @@ Page {
                 }
             }
         }
-        /*section {
-            property: 'section'
+
+        section {
+            property: "section"
             delegate: SectionHeader {
                 text: section
             }
-        }*/
+        }
 
         model: pagesModel
         delegate: BackgroundItem {
