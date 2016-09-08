@@ -52,7 +52,7 @@ Page {
             ListElement {
                 page: "Tasklist.qml"
                 title: "Due today"
-                arguments: "status:pending"
+                arguments: "status:pending due:today"
                 section: "Smart"
             }
 
