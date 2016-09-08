@@ -37,7 +37,11 @@ Page {
                 label: qsTr("Due date")
                 text: convert_date(due)
             }
-
+            Rectangle {
+                color: "red"
+                width: 20
+                height: 20
+            }
         }
     }
 

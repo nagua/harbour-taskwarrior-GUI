@@ -35,13 +35,14 @@ import eu.nagua 1.0
 
 Page {
     id: page
-    property string args
+    property string taskArguments
 
     TaskExecuter {
         id: executer
     }
 
-    SilicaFlickable {
+    SilicaListView {
+        id: listView
         anchors.fill: parent
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
@@ -52,38 +53,34 @@ Page {
             }
         }
 
-        SilicaListView {
-            id: listView
-            model: ListModel {
-                id: taskModel
-                property bool ready: false
-            }
-
-            header: PageHeader {
-                title: qsTr("Task list")
-            }
-
-            opacity: taskModel.ready ? 1.0 : 0.0
-            Behavior on opacity { FadeAnimation {} }
-
-            anchors.fill: parent
-            delegate: BackgroundItem {
-                id: delegate
-                property int tid: model.id;
-
-                Label {
-                    x: Theme.paddingLarge
-                    text: description
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
-                }
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
-                }
-            }
-
-            VerticalScrollDecorator {}
+        model: ListModel {
+            id: taskModel
+            property bool ready: false
         }
+
+        header: PageHeader {
+            title: qsTr("Task list")
+        }
+
+        opacity: taskModel.ready ? 1.0 : 0.0
+        Behavior on opacity { FadeAnimation {} }
+
+        delegate: BackgroundItem {
+            id: delegate
+            property int tid: model.id;
+
+            Label {
+                x: Theme.paddingLarge
+                text: description
+                anchors.verticalCenter: parent.verticalCenter
+                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+            }
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
+            }
+        }
+
+        VerticalScrollDecorator {}
     }
 
     Column {
@@ -101,13 +98,16 @@ Page {
         }
     }
 
-    Component.onCompleted: getData();
+    onTaskArgumentsChanged: {
+        getData();
+    }
 
     function getData()
     {
+        taskModel.ready = false;
         // Get arguments from MainPage and split them on whitespace
         // also add "export"
-        var args = page.args.match(/(?:[^\s"]+|"[^"]*")+/g);
+        var args = page.taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
         args.push("export");
 
         // Run taskwarrior

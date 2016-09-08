@@ -34,10 +34,18 @@ import "pages"
 
 ApplicationWindow
 {
-    initialPage: Component { MainPage { } }
+    id: taskWindow
+
+    property string taskArguments : "status:pending"
+
+    initialPage: Component { Tasklist { taskArguments: taskWindow.taskArguments } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
+
+    Component.onCompleted: {
+        pageStack.pushAttached( Qt.resolvedUrl("pages/Viewlist.qml"))
+    }
 }
 
 

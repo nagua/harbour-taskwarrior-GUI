@@ -35,8 +35,24 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
-    // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaFlickable {
+    ListModel {
+        id: pagesModel
+
+        ListElement {
+            page: "Tasklist.qml"
+            title: "All Tasks"
+            arguments: "status:pending"
+        }
+
+        ListElement {
+            page: "Tasklist.qml"
+            title: "RobotING"
+            arguments: "status:pending project:RobotING"
+        }
+    }
+
+    SilicaListView {
+        id: listView
         anchors.fill: parent
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
@@ -47,56 +63,31 @@ Page {
             }*/
         }
 
-        // Tell SilicaFlickable the height of its content.
-        contentHeight: column.height
-
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
-
-        ListModel {
-            id: pagesModel
-
-            ListElement {
-                page: "Tasklist.qml"
-                title: "All Tasks"
-                arguments: "status:pending"
+        header: PageHeader { title: "Taskwarrior" }
+        /*section {
+            property: 'section'
+            delegate: SectionHeader {
+                text: section
             }
+        }*/
 
-            ListElement {
-                page: "Tasklist.qml"
-                title: "RobotING"
-                arguments: "status:pending project:RobotING"
+        model: pagesModel
+        delegate: BackgroundItem {
+            width: listView.width
+            Label {
+                id: firstName
+                text: model.title
+                color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                anchors.verticalCenter: parent.verticalCenter
+                x: Theme.horizontalPageMargin
+            }
+            onClicked: {
+                taskWindow.taskArguments = model.arguments;
+                pageStack.navigateBack();
             }
         }
 
-        SilicaListView {
-            id: listView
-            anchors.fill: parent
-            model: pagesModel
-
-            header: PageHeader { title: "Taskwarrior" }
-            /*section {
-                property: 'section'
-                delegate: SectionHeader {
-                    text: section
-                }
-            }*/
-            delegate: BackgroundItem {
-                width: listView.width
-                Label {
-                    id: firstName
-                    text: model.title
-                    color: highlighted ? Theme.highlightColor : Theme.primaryColor
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: Theme.horizontalPageMargin
-                }
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl(model.page), {args: model.arguments})
-                }
-            }
-
-            VerticalScrollDecorator {}
-        }
+        VerticalScrollDecorator {}
     }
 }
 
