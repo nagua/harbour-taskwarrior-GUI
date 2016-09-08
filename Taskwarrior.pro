@@ -43,5 +43,6 @@ HEADERS += \
 DISTFILES += \
     qml/pages/Tasklist.qml \
     qml/pages/DetailView.qml \
-    qml/pages/Viewlist.qml
+    qml/pages/Viewlist.qml \
+    qml/pages/AddView.qml
 

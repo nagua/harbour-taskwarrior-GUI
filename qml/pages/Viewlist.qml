@@ -30,6 +30,7 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import org.nemomobile.configuration 1.0
 
 
 Page {
@@ -39,8 +40,23 @@ Page {
         id: listView
         anchors.fill: parent
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Add View")
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"))
+                    dialog.accepted.connect(function() {
+                        var item = {page: "Tasklist.qml", title: dialog.name, arguments: dialog.query, section: "Custom"}
+                        saved_lists.value.append(item);
+                        pagesModel.append(item)
+                    } )
+                }
+            }
+        }
+
         ListModel {
             id: pagesModel
+            property bool ready: false
 
             ListElement {
                 page: "Tasklist.qml"
@@ -55,21 +71,6 @@ Page {
                 arguments: "status:pending due:today"
                 section: "Smart"
             }
-
-            ListElement {
-                page: "Tasklist.qml"
-                title: "RobotING"
-                arguments: "status:pending project:RobotING"
-                section: "Custom"
-            }
-        }
-
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            /*MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("Tasklist.qml"))
-            }*/
         }
 
         header: Column {
@@ -82,7 +83,7 @@ Page {
                 width: parent.width
                 TextField {
                     id: query
-                    width: parent.width - 50
+                    width: parent.width - 70
                     label: "query"
                 }
                 IconButton {
@@ -119,7 +120,17 @@ Page {
             }
         }
 
+        Component.onCompleted: {
+            console.log(saved_lists)
+        }
+
         VerticalScrollDecorator {}
+
+        ConfigurationValue {
+            id: saved_lists
+            defaultValue: [{}]
+            key: "/Viewlist/list"
+        }
     }
 }
 
