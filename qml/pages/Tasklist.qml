@@ -127,8 +127,3 @@ Page {
         taskModel.ready = true;
     }
 }
-
-
-
-
-
