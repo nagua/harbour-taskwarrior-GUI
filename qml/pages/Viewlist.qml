@@ -31,6 +31,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
+import "../lib/storage.js" as DB
 
 
 Page {
@@ -42,12 +43,17 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: "Reset lists"
+                onClicked: DB.recreateDB()
+            }
+
+            MenuItem {
                 text: qsTr("Add View")
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"))
                     dialog.accepted.connect(function() {
-                        var item = {page: "Tasklist.qml", title: dialog.name, arguments: dialog.query, section: "Custom"}
-                        saved_lists.value.append(item);
+                        var item = {page: "Tasklist.qml", name: dialog.name, query: dialog.query, section: "Custom"}
+                        DB.writeView(item);
                         pagesModel.append(item)
                     } )
                 }
@@ -60,15 +66,15 @@ Page {
 
             ListElement {
                 page: "Tasklist.qml"
-                title: "All tasks"
-                arguments: "status:pending"
+                name: "All tasks"
+                query: "status:pending"
                 section: "Smart"
             }
 
             ListElement {
                 page: "Tasklist.qml"
-                title: "Due today"
-                arguments: "status:pending due:today"
+                name: "Due today"
+                query: "status:pending due:today"
                 section: "Smart"
             }
         }
@@ -109,28 +115,27 @@ Page {
             width: listView.width
             Label {
                 id: firstName
-                text: model.title
+                text: model.name
                 color: highlighted ? Theme.highlightColor : Theme.primaryColor
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
             }
             onClicked: {
-                taskWindow.taskArguments = model.arguments;
+                taskWindow.taskArguments = model.query;
                 pageStack.navigateBack();
             }
         }
 
         Component.onCompleted: {
-            console.log(saved_lists)
+            var views = DB.readViews();
+            for(var i = 0; i < views.length; ++i) {
+                var item = views[i];
+                item.page = "Tasklist.qml";
+                pagesModel.append(item);
+            }
         }
 
         VerticalScrollDecorator {}
-
-        ConfigurationValue {
-            id: saved_lists
-            defaultValue: [{}]
-            key: "/Viewlist/list"
-        }
     }
 }
 
