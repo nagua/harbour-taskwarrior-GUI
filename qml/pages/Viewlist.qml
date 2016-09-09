@@ -37,6 +37,10 @@ import "../lib/storage.js" as DB
 Page {
     id: page
 
+    function copyViewModel(view) {
+        return {lid: view.lid, page: view.page, name: view.name, query: view.query, section: view.section};
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
@@ -50,21 +54,21 @@ Page {
             MenuItem {
                 text: qsTr("Add View")
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"))
+                    var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"));
                     dialog.accepted.connect(function() {
-                        var item = {page: "Tasklist.qml", name: dialog.name, query: dialog.query, section: "Custom"}
-                        DB.writeView(item);
+                        var item = {page: "Tasklist.qml", name: dialog.name, query: dialog.query, section: dialog.section}
+                        DB.addView(item);
                         pagesModel.append(item)
-                    } )
+                    });
                 }
             }
         }
 
         ListModel {
             id: pagesModel
-            property bool ready: false
 
             ListElement {
+                lid: -1
                 page: "Tasklist.qml"
                 name: "All tasks"
                 query: "status:pending"
@@ -72,10 +76,20 @@ Page {
             }
 
             ListElement {
+                lid: -1
                 page: "Tasklist.qml"
                 name: "Due today"
                 query: "status:pending due:today"
                 section: "Smart"
+            }
+
+            Component.onCompleted: {
+                var views = DB.readViews();
+                for(var i = 0; i < views.length; ++i) {
+                    var item = views[i];
+                    item.page = "Tasklist.qml";
+                    pagesModel.append(item);
+                }
             }
         }
 
@@ -111,7 +125,7 @@ Page {
         }
 
         model: pagesModel
-        delegate: BackgroundItem {
+        delegate: ListItem {
             width: listView.width
             Label {
                 id: firstName
@@ -120,18 +134,36 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
             }
+            menu: ContextMenu {
+                MenuItem {
+                    text: qsTr("Edit")
+                    onClicked: {
+                        var m = copyViewModel(model);
+                        var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"), {name: m.name, query: m.query, section: m.section});;
+                        dialog.accepted.connect(function() {
+                            m.name = dialog.name
+                            m.query = dialog.query
+                            m.section = dialog.section
+                            pagesModel.set(model.index, m);
+                            DB.editView(m);
+                        });
+                    }
+                }
+                MenuItem {
+                    text: qsTr("Delete")
+                    onClicked: {
+                        if(model.lid >= 0)
+                        {
+                            DB.deleteView(model);
+                            pagesModel.remove(model.index);
+                        }
+                    }
+                }
+            }
+
             onClicked: {
                 taskWindow.taskArguments = model.query;
                 pageStack.navigateBack();
-            }
-        }
-
-        Component.onCompleted: {
-            var views = DB.readViews();
-            for(var i = 0; i < views.length; ++i) {
-                var item = views[i];
-                item.page = "Tasklist.qml";
-                pagesModel.append(item);
             }
         }
 

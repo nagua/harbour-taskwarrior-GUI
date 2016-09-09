@@ -50,20 +50,36 @@ function readViews() {
         var result = tx.executeSql("SELECT * FROM views;");
         for(var i = 0; i < result.rows.length; ++i) {
             var item = result.rows.item(i);
-            var storage_item = {name: item.ViewName, query: item.Query, section: item.Section};
-            console.log(JSON.stringify(storage_item));
+            var storage_item = {lid: item.ID ,name: item.ViewName, query: item.Query, section: item.Section};
             lists.push(storage_item);
         }
     });
     return lists;
 }
 
-function writeView(view) {
+function addView(view) {
     var db = connectDB();
-    db.transaction(function(tx){
-        tx.executeSql("INSERT INTO views (ViewName, Query, Section) VALUES (?,?,?);", [view.name, view.query, view.section]);
-        tx.executeSql("COMMIT;")
+    db.transaction(function(tx) {
+        var result;
+        result = tx.executeSql("INSERT INTO views (ViewName, Query, Section) VALUES (?,?,?);", [view.name, view.query, view.section]);
+        result = tx.executeSql("COMMIT;");
+        view.lid = +result.insertId;
     })
 }
 
+function deleteView(view) {
+    var db = connectDB();
+    db.transaction(function(tx) {
+        tx.executeSql("DELETE FROM views WHERE ID = ?;", view.lid);
+        tx.executeSql("COMMIT;");
+    });
+}
 
+
+function editView(view) {
+    var db = connectDB();
+    db.transaction(function(tx) {
+        tx.executeSql("UPDATE views Set ViewName=?, Query=?, Section=? WHERE ID = ?;", [view.name, view.query, view.section, view.lid]);
+        tx.executeSql("COMMIT;");
+    });
+}
