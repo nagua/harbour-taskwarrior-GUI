@@ -101,13 +101,20 @@ Page {
             }
             Row {
                 width: parent.width
+                spacing: Theme.paddingSmall
                 TextField {
                     id: query
-                    width: parent.width - 70
-                    label: "query"
+                    width: parent.width - Theme.iconSizeMedium - 2*Theme.paddingSmall
+                    label: "Custom query"
+                    placeholderText: "Enter custom query here (Press enter)"
+
+                    Keys.onReturnPressed: {
+                        taskWindow.taskArguments = query.text;
+                        pageStack.navigateBack();
+                    }
                 }
                 IconButton {
-                    width: 20
+                    width: Theme.iconSizeMedium
                     icon.source: "image://theme/icon-m-enter"
                     onClicked: {
                         taskWindow.taskArguments = query.text;
