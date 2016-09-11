@@ -33,7 +33,7 @@ function recreateDB() {
     return db;
 }
 
-function shemaIsUpToDate() {
+function schemaIsUpToDate() {
     var db = connectDB();
 
     if(db.version === "") {
