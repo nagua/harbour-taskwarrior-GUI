@@ -2,48 +2,46 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import eu.nagua 1.0
 
-Page {
+Dialog {
     id: page
     property variant taskData;
-    property string description: taskData ? taskData.description : ""
-    property string due: taskData ? taskData.due : ""
+    property string description: getJsonField("description")
+    property string project: getJsonField("project")
+    property string due: getJsonField("due")
 
     TaskExecuter {
         id: executer
     }
 
-    SilicaFlickable {
-        anchors.fill: parent
+    Column {
+        width: parent.width
+        spacing: Theme.paddingMedium
 
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Stuff")
-                onClicked: console.log(taskData.description)
-            }
+        DialogHeader {}
+
+        SectionHeader {
+            text: qsTr("Detail View")
         }
-
-        Column {
-            anchors.fill: parent
-            spacing: Theme.paddingMedium
-
-            SectionHeader {
-                text: qsTr("Detail View")
-            }
-            TextField {
-                label: qsTr("Description")
-                text: description
-            }
-            TextField {
-                label: qsTr("Due date")
-                text: convert_date(due)
-            }
-            DatePicker {
-                date: new Date(convert_date(due))
-            }
+        TextArea {
+            width: parent.width
+            wrapMode: Text.Wrap
+            label: qsTr("Description")
+            text: description
+        }
+        TextField {
+            width: parent.width
+            label: qsTr("Project")
+            text: project
+            placeholderText: qsTr("Project")
+        }
+        TextField {
+            width: parent.width
+            label: qsTr("Due date")
+            text: convert_tdate_to_jsdate(due)
         }
     }
 
-    function convert_date(date) {
+    function convert_tdate_to_jsdate(date) {
         // Ex: 20160901T110008Z
         if( date.length < 15)
             return Date.now()
@@ -57,6 +55,13 @@ Page {
 
         var utc_date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + "Z";
         return utc_date;
+    }
+
+    function getJsonField(item) {
+        if(taskData && taskData.hasOwnProperty(item) ) {
+            return taskData[item];
+        }
+        return "";
     }
 }
 

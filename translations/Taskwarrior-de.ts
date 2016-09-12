@@ -38,10 +38,6 @@
 <context>
     <name>DetailView</name>
     <message>
-        <source>Stuff</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Detail View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -51,6 +47,10 @@
     </message>
     <message>
         <source>Due date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

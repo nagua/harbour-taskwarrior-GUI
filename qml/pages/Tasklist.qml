@@ -65,14 +65,21 @@ Page {
         opacity: taskModel.ready ? 1.0 : 0.0
         Behavior on opacity { FadeAnimation {} }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             id: delegate
+            width: parent.width
             property int tid: model.id;
 
             Label {
-                x: Theme.paddingLarge
+                anchors {
+                    left: parent.left
+                    leftMargin: Theme.paddingLarge
+                    right: parent.right
+                    rightMargin: Theme.horizontalPageMargin
+                    verticalCenter: parent.verticalCenter
+                }
                 text: description
-                anchors.verticalCenter: parent.verticalCenter
+                truncationMode: TruncationMode.Fade
                 color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: {
