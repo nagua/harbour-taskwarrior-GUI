@@ -30,46 +30,67 @@
 
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import org.nemomobile.configuration 1.0
+import "../lib/storage.js" as DB
 
 
 Page {
     id: page
 
+    function copyViewModel(view) {
+        return {lid: view.lid, page: view.page, name: view.name, query: view.query, section: view.section};
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
+
+        PullDownMenu {
+            MenuItem {
+                text: "Reset lists"
+                onClicked: DB.recreateDB()
+            }
+
+            MenuItem {
+                text: qsTr("Add View")
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"));
+                    dialog.accepted.connect(function() {
+                        var item = {page: "Tasklist.qml", name: dialog.name, query: dialog.query, section: dialog.section}
+                        DB.addView(item);
+                        pagesModel.append(item)
+                    });
+                }
+            }
+        }
 
         ListModel {
             id: pagesModel
 
             ListElement {
+                lid: -1
                 page: "Tasklist.qml"
-                title: "All tasks"
-                arguments: "status:pending"
+                name: "All tasks"
+                query: "status:pending"
                 section: "Smart"
             }
 
             ListElement {
+                lid: -1
                 page: "Tasklist.qml"
-                title: "Due today"
-                arguments: "status:pending due:today"
+                name: "Due today"
+                query: "status:pending due:today"
                 section: "Smart"
             }
 
-            ListElement {
-                page: "Tasklist.qml"
-                title: "RobotING"
-                arguments: "status:pending project:RobotING"
-                section: "Custom"
+            Component.onCompleted: {
+                var views = DB.readViews();
+                for(var i = 0; i < views.length; ++i) {
+                    var item = views[i];
+                    item.page = "Tasklist.qml";
+                    pagesModel.append(item);
+                }
             }
-        }
-
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            /*MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("Tasklist.qml"))
-            }*/
         }
 
         header: Column {
@@ -80,13 +101,20 @@ Page {
             }
             Row {
                 width: parent.width
+                spacing: Theme.paddingSmall
                 TextField {
                     id: query
-                    width: parent.width - 50
-                    label: "query"
+                    width: parent.width - Theme.iconSizeMedium - 2*Theme.paddingSmall
+                    label: "Custom query"
+                    placeholderText: "Enter custom query here (Press enter)"
+
+                    Keys.onReturnPressed: {
+                        taskWindow.taskArguments = query.text;
+                        pageStack.navigateBack();
+                    }
                 }
                 IconButton {
-                    width: 20
+                    width: Theme.iconSizeMedium
                     icon.source: "image://theme/icon-m-enter"
                     onClicked: {
                         taskWindow.taskArguments = query.text;
@@ -104,17 +132,44 @@ Page {
         }
 
         model: pagesModel
-        delegate: BackgroundItem {
+        delegate: ListItem {
             width: listView.width
             Label {
                 id: firstName
-                text: model.title
+                text: model.name
                 color: highlighted ? Theme.highlightColor : Theme.primaryColor
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
             }
+            menu: ContextMenu {
+                MenuItem {
+                    text: qsTr("Edit")
+                    onClicked: {
+                        var m = copyViewModel(model);
+                        var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"), {name: m.name, query: m.query, section: m.section});;
+                        dialog.accepted.connect(function() {
+                            m.name = dialog.name
+                            m.query = dialog.query
+                            m.section = dialog.section
+                            pagesModel.set(model.index, m);
+                            DB.editView(m);
+                        });
+                    }
+                }
+                MenuItem {
+                    text: qsTr("Delete")
+                    onClicked: {
+                        if(model.lid >= 0)
+                        {
+                            DB.deleteView(model);
+                            pagesModel.remove(model.index);
+                        }
+                    }
+                }
+            }
+
             onClicked: {
-                taskWindow.taskArguments = model.arguments;
+                taskWindow.taskArguments = model.query;
                 pageStack.navigateBack();
             }
         }

@@ -30,6 +30,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "lib/storage.js" as DB
 import "pages"
 
 ApplicationWindow
@@ -38,7 +39,14 @@ ApplicationWindow
 
     property string taskArguments : "status:pending"
 
-    initialPage: Component { Tasklist { taskArguments: taskWindow.taskArguments } }
+    Component {
+        id: tasklist
+        Tasklist {
+            taskArguments: taskWindow.taskArguments
+        }
+    }
+
+    initialPage: DB.schemaIsUpToDate() ? tasklist : Qt.quit()
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
