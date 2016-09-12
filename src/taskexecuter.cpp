@@ -8,10 +8,17 @@ TaskExecuter::TaskExecuter(QObject *parent) :
 
 }
 
-QString TaskExecuter::executeTask(QStringList arguments)
+QString TaskExecuter::executeTask(QStringList arguments, QString std_in)
 {
     QString programm = "task";
     m_process->start(programm, arguments);
+
+    if(std_in != "") {
+        QByteArray data = std_in.toUtf8();
+        m_process->write(data);
+        m_process->closeWriteChannel();
+    }
+
     m_process->waitForFinished();
     QByteArray bytes = m_process->readAllStandardOutput();
     QString str(bytes);

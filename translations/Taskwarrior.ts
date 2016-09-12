@@ -68,6 +68,14 @@
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Syncronize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Task</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Viewlist</name>

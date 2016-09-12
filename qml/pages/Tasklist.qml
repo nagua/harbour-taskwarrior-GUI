@@ -34,8 +34,9 @@ import eu.nagua 1.0
 
 
 Page {
-    id: page
+    id: taskList
     property string taskArguments
+    property var taskData
 
     TaskExecuter {
         id: executer
@@ -50,6 +51,23 @@ Page {
             MenuItem {
                 text: qsTr("Load Data")
                 onClicked: getData()
+            }
+            MenuItem {
+                text: qsTr("Syncronize")
+                onClicked: {
+                    var out = executer.executeTask(["sync"]);
+                    console.log(out);
+                    getData();
+                }
+            }
+            MenuItem {
+                text: qsTr("Add Task")
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"));
+                    dialog.accepted.connect(function() {
+                        getData();
+                    });
+                }
             }
         }
 
@@ -66,22 +84,72 @@ Page {
         Behavior on opacity { FadeAnimation {} }
 
         delegate: ListItem {
-            id: delegate
+            id: delegator
             width: parent.width
-            property int tid: model.id;
+            property int tid: model.id
 
-            Label {
+//            Image {
+//                id: done
+//                anchors {
+//                    left: parent.left
+//                    leftMargin: Theme.horizontalPageMargin
+//                    verticalCenter: parent.verticalCenter
+//                }
+//                source: "image://theme/icon-m-acknowledge"
+//            }
+
+            Column {
                 anchors {
+//                    left: done.right
                     left: parent.left
-                    leftMargin: Theme.paddingLarge
+                    leftMargin: Theme.paddingMedium
                     right: parent.right
                     rightMargin: Theme.horizontalPageMargin
                     verticalCenter: parent.verticalCenter
                 }
-                text: description
-                truncationMode: TruncationMode.Fade
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+
+                Label {
+                    width: parent.width
+                    text: description
+                    truncationMode: TruncationMode.Fade
+                    color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
+                }
+
+                Item {
+                    width: parent.width
+                    height: priority.height
+                    Label {
+                        id: priority
+                        opacity: typeof model.project != "undefined" ? 1.0 : 0.0
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        text: "Project: " + model.project
+                    }
+                    Label {
+                        anchors.right: parent.right
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        text: "Urgency: " + model.urgency
+                    }
+                }
+
             }
+
+            RemorseItem { id: remorse }
+
+            menu: ContextMenu {
+                MenuItem {
+                    text: "Done"
+                    onClicked: {
+                        remorse.execute(delegator, "Marking as done", function() {
+                            var out = executer.executeTask([tid.toString(), "done"]);
+                            getData();
+                            console.log(out);
+                        });
+                    }
+                }
+            }
+
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
             }
@@ -114,7 +182,7 @@ Page {
         taskModel.ready = false;
         // Get arguments from MainPage and split them on whitespace
         // also add "export"
-        var args = page.taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
+        var args = taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
         args.push("export");
 
         // Run taskwarrior
@@ -124,7 +192,19 @@ Page {
         // Parse JSON Data
         var task_data = JSON.parse(task_json_str);
         // Sort data by urgency
-        task_data.sort(function(a,b){ return b.urgency - a.urgency; });
+        task_data.sort(function(a,b) {
+            var aid = a.id;
+            var bid = b.id;
+            var au = a.urgency;
+            var bu = b.urgency
+
+            if (au === bu) {
+                return aid - bid;
+            }
+
+            return bu - au;
+        });
+        taskData = task_data;
 
         // Clear model and add new items
         taskModel.clear();
