@@ -61,5 +61,3 @@ ApplicationWindow
         pageStack.pushAttached( Qt.resolvedUrl("pages/Viewlist.qml"))
     }
 }
-
-

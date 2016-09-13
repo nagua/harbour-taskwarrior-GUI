@@ -32,22 +32,38 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
+
+    Label {
+        id: header
+        text: "Tasks"
+        y: Theme.paddingMedium
+        anchors.horizontalCenter: parent.horizontalCenter
+        //width: parent.width
+    }
+
     ListView {
         id: taskListView
+        model: taskWindow.coverModel
         property real itemHeight: Theme.iconSizeSmall + Theme.paddingSmall
 
+        anchors {
+            top: header.bottom
+            topMargin: Theme.paddingSmall
+        }
         clip: true
-        model: taskWindow.coverModel
-        y: Theme.paddingLarge
-        leftMargin: Theme.paddingMedium
         width: parent.width
         height: 6*itemHeight
 
         delegate: Label {
-            width: taskListView.width
+            anchors {
+                leftMargin: Theme.paddingLarge
+                rightMargin: Theme.paddingLarge
+                left: parent.left
+                right: parent.right
+            }
             height: taskListView.itemHeight
             text: model.description
-            font.pixelSize: Theme.fontSizeExtraSmall
+            font.pixelSize: Theme.fontSizeSmall
             truncationMode: TruncationMode.Fade
         }
 
@@ -69,5 +85,3 @@ CoverBackground {
         }
     }
 }
-
-
