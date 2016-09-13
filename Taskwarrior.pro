@@ -45,5 +45,6 @@ DISTFILES += \
     qml/pages/DetailView.qml \
     qml/pages/Viewlist.qml \
     qml/pages/AddView.qml \
-    qml/lib/storage.js
+    qml/lib/storage.js \
+    qml/lib/utils.js
 

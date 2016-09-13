@@ -32,14 +32,11 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import "../lib/storage.js" as DB
+import "../lib/utils.js" as UT
 
 
 Page {
     id: page
-
-    function copyViewModel(view) {
-        return {lid: view.lid, page: view.page, name: view.name, query: view.query, section: view.section};
-    }
 
     SilicaListView {
         id: listView
@@ -145,7 +142,7 @@ Page {
                 MenuItem {
                     text: qsTr("Edit")
                     onClicked: {
-                        var m = copyViewModel(model);
+                        var m = UT.copyItem(model);
                         var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"), {name: m.name, query: m.query, section: m.section});;
                         dialog.accepted.connect(function() {
                             m.name = dialog.name

@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import eu.nagua 1.0
+import "../lib/utils.js" as UT
 
 Dialog {
     id: page
@@ -48,12 +49,21 @@ Dialog {
 
     onDone: {
         if ( result == DialogResult.Accepted ) {
+            var json = {};
+            var out = "";
             if (typeof taskData == "undefined") {
-                var json = {};
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text
                 //json["due"] = duefield.text
-                var out = executer.executeTask(["import", "-"], JSON.stringify(json));
+                out = executer.executeTask(["import", "-"], JSON.stringify(json));
+                console.log(out);
+            }
+            else {
+                json = UT.copyItem(taskData.rawData);
+                json["description"] = descriptionfield.text;
+                json["project"] = projectfield.text
+                console.log(JSON.stringify(json));
+                out = executer.executeTask(["import", "-"], JSON.stringify(json));
                 console.log(out);
             }
         }
@@ -77,8 +87,8 @@ Dialog {
 
     function getJsonField(item) {
         var td = taskData;
-        if(taskData && taskData.hasOwnProperty(item) ) {
-            return taskData[item];
+        if(taskData && taskData.rawData.hasOwnProperty(item) ) {
+            return taskData.rawData[item];
         }
         return "";
     }

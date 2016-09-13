@@ -36,7 +36,6 @@ import eu.nagua 1.0
 Page {
     id: taskList
     property string taskArguments
-    property var taskData
 
     TaskExecuter {
         id: executer
@@ -120,10 +119,10 @@ Page {
                     height: priority.height
                     Label {
                         id: priority
-                        opacity: typeof model.project != "undefined" ? 1.0 : 0.0
+                        opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
                         font.pixelSize: Theme.fontSizeExtraSmall
                         color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: "Project: " + model.project
+                        text: "Project: " + model.rawData.project
                     }
                     Label {
                         anchors.right: parent.right
@@ -151,7 +150,10 @@ Page {
             }
 
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
+                var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
+                dialog.accepted.connect(function() {
+                    getData();
+                });
             }
         }
 
@@ -204,12 +206,22 @@ Page {
 
             return bu - au;
         });
-        taskData = task_data;
 
         // Clear model and add new items
         taskModel.clear();
         for(var i = 0; i < task_data.length; i++) {
-            taskModel.append( task_data[i] );
+            var json = {};
+            json["description"] = task_data[i].description;
+            json["urgency"] = task_data[i].urgency;
+            json["status"] = task_data[i].status;
+            json["entry"] = task_data[i].entry;
+            json["uuid"] = task_data[i].uuid;
+            json["id"] = task_data[i].id;
+
+            // Add the rest of the data as an addition jsobject so it will not be unified
+            // Thus it is usable to reconstruct the task and modify it
+            json["rawData"] = task_data[i];
+            taskModel.append( json );
         }
         taskModel.ready = true;
     }
