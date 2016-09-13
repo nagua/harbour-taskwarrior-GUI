@@ -32,22 +32,41 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: qsTr("Tasks")
+    ListView {
+        id: taskListView
+        property real itemHeight: Theme.iconSizeSmall + Theme.paddingSmall
+
+        clip: true
+        model: taskWindow.coverModel
+        y: Theme.paddingLarge
+        leftMargin: Theme.paddingMedium
+        width: parent.width
+        height: 6*itemHeight
+
+        delegate: Label {
+            width: taskListView.width
+            height: taskListView.itemHeight
+            text: model.description
+            font.pixelSize: Theme.fontSizeExtraSmall
+            truncationMode: TruncationMode.Fade
+        }
+
     }
+
+
+    signal reloadData()
 
     CoverActionList {
         id: coverAction
 
         CoverAction {
             iconSource: "image://theme/icon-cover-new"
+            onTriggered: {
+                var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailView.qml"));
+                dialog.accepted.connect(function() { reloadData(); });
+                taskWindow.activate();
+            }
         }
-
-        //CoverAction {
-        //    iconSource: "image://theme/icon-cover-pause"
-        //}
     }
 }
 

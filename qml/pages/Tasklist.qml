@@ -34,7 +34,7 @@ import eu.nagua 1.0
 
 
 Page {
-    id: taskList
+    id: page
     property string taskArguments
 
     TaskExecuter {
@@ -175,6 +175,10 @@ Page {
         }
     }
 
+    Component.onCompleted: {
+        taskWindow.cover.reloadData.connect(getData);
+    }
+
     onTaskArgumentsChanged: {
         getData();
     }
@@ -206,6 +210,12 @@ Page {
 
             return bu - au;
         });
+
+        taskWindow.coverModel.clear();
+        var max_len = task_data.length < 6 ? task_data.length : 6;
+        for(var i = 0; i < max_len; i++) {
+            taskWindow.coverModel.append(task_data[i]);
+        }
 
         // Clear model and add new items
         taskModel.clear();

@@ -29,13 +29,6 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DetailView</name>
     <message>
         <source>Detail View</source>
