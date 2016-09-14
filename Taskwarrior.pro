@@ -18,7 +18,6 @@ SOURCES += src/Taskwarrior.cpp \
     src/taskexecuter.cpp
 
 OTHER_FILES += qml/Taskwarrior.qml \
-    qml/cover/CoverPage.qml \
     rpm/Taskwarrior.changes.in \
     rpm/Taskwarrior.spec \
     rpm/Taskwarrior.yaml \
@@ -46,5 +45,6 @@ DISTFILES += \
     qml/lib/storage.js \
     qml/lib/utils.js \
     qml/pages/DetailView.qml \
-    qml/pages/DetailTask.qml
+    qml/pages/DetailTask.qml \
+    qml/cover/CoverPage.qml
 

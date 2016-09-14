@@ -33,40 +33,57 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
 
-    Label {
-        id: header
-        text: "Tasks"
-        y: Theme.paddingMedium
-        anchors.horizontalCenter: parent.horizontalCenter
-        //width: parent.width
+    BackgroundItem {
+        anchors.fill: parent
+
+        Image {
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
+            source: "../images/taskwarrior_head.png"
+            opacity: 0.2
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
+        }
     }
 
-    ListView {
-        id: taskListView
-        model: taskWindow.coverModel
-        property real itemHeight: Theme.iconSizeSmall + Theme.paddingSmall
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: Theme.paddingSmall
+        color: "transparent"
 
-        anchors {
-            top: header.bottom
-            topMargin: Theme.paddingSmall
+        Label {
+            id: header
+            text: "Tasks"
+            anchors.horizontalCenter: parent.horizontalCenter
         }
-        clip: true
-        width: parent.width
-        height: 6*itemHeight
 
-        delegate: Label {
+        ListView {
+            id: taskListView
+            model: taskWindow.coverModel
+            property real itemHeight: Theme.iconSizeSmall + Theme.paddingSmall
+
             anchors {
-                leftMargin: Theme.paddingLarge
-                rightMargin: Theme.paddingLarge
-                left: parent.left
-                right: parent.right
+                top: header.bottom
+                topMargin: Theme.paddingSmall
             }
-            height: taskListView.itemHeight
-            text: model.description
-            font.pixelSize: Theme.fontSizeSmall
-            truncationMode: TruncationMode.Fade
-        }
+            clip: true
+            width: parent.width
+            height: 6*itemHeight
 
+            delegate: Label {
+                anchors {
+                    leftMargin: Theme.paddingLarge
+                    rightMargin: Theme.paddingLarge
+                    left: parent.left
+                    right: parent.right
+                }
+                height: taskListView.itemHeight
+                text: model.description
+                font.pixelSize: Theme.fontSizeSmall
+                truncationMode: TruncationMode.Fade
+            }
+
+        }
     }
 
 

@@ -140,7 +140,9 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
             }
+
             menu: model.lid >= 0 ? context : undefined
+
             ContextMenu {
                 id: context
 
