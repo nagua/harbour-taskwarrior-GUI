@@ -42,9 +42,9 @@ HEADERS += \
 
 DISTFILES += \
     qml/pages/Tasklist.qml \
-    qml/pages/DetailView.qml \
     qml/pages/Viewlist.qml \
-    qml/pages/AddView.qml \
     qml/lib/storage.js \
-    qml/lib/utils.js
+    qml/lib/utils.js \
+    qml/pages/DetailView.qml \
+    qml/pages/DetailTask.qml
 

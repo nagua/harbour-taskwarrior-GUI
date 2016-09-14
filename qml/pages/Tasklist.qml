@@ -49,22 +49,22 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Load Data")
-                onClicked: getData()
+                onClicked: getTasks()
             }
             MenuItem {
                 text: qsTr("Syncronize")
                 onClicked: {
                     var out = executer.executeTask(["sync"]);
                     console.log(out);
-                    getData();
+                    getTasks();
                 }
             }
             MenuItem {
                 text: qsTr("Add Task")
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"));
+                    var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"));
                     dialog.accepted.connect(function() {
-                        getData();
+                        getTasks();
                     });
                 }
             }
@@ -140,19 +140,16 @@ Page {
                 MenuItem {
                     text: "Done"
                     onClicked: {
-                        remorse.execute(delegator, "Marking as done", function() {
-                            var out = executer.executeTask([tid.toString(), "done"]);
-                            getData();
-                            console.log(out);
-                        });
+                        var timeout = 2;
+                        remorse.execute(delegator, "Marking as done", doneTask(tid), timeout);
                     }
                 }
             }
 
             onClicked: {
-                var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
+                var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"), {taskData: model});
                 dialog.accepted.connect(function() {
-                    getData();
+                    getTasks();
                 });
             }
         }
@@ -176,14 +173,14 @@ Page {
     }
 
     Component.onCompleted: {
-        taskWindow.cover.reloadData.connect(getData);
+        taskWindow.cover.reloadData.connect(getTasks);
     }
 
     onTaskArgumentsChanged: {
-        getData();
+        getTasks();
     }
 
-    function getData()
+    function getTasks()
     {
         taskModel.ready = false;
         // Get arguments from MainPage and split them on whitespace
@@ -234,5 +231,11 @@ Page {
             taskModel.append( json );
         }
         taskModel.ready = true;
+    }
+
+    function doneTask(tid) {
+        var out = executer.executeTask([tid.toString(), "done"]);
+        getTasks();
+        console.log(out);
     }
 }

@@ -78,7 +78,7 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-new"
             onTriggered: {
-                var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailView.qml"));
+                var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailTask.qml"));
                 dialog.accepted.connect(function() { reloadData(); });
                 taskWindow.activate();
             }
