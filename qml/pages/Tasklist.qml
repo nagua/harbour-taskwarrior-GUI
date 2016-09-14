@@ -41,6 +41,10 @@ Page {
         id: executer
     }
 
+    TaskWatcher {
+        id: watcher
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
@@ -137,11 +141,12 @@ Page {
             RemorseItem { id: remorse }
 
             menu: ContextMenu {
+                id: taskcontextmenu
                 MenuItem {
                     text: "Done"
                     onClicked: {
-                        var timeout = 2;
-                        remorse.execute(delegator, "Marking as done", doneTask(tid), timeout);
+                        var timeout = 2000;
+                        remorse.execute(delegator, "Marking as done", function() { doneTask(tid) }, timeout);
                     }
                 }
             }
@@ -174,6 +179,7 @@ Page {
 
     Component.onCompleted: {
         taskWindow.cover.reloadData.connect(getTasks);
+        watcher.TasksChanged.connect(getTasks);
     }
 
     onTaskArgumentsChanged: {
