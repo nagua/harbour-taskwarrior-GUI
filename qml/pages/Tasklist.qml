@@ -60,16 +60,12 @@ Page {
                 onClicked: {
                     var out = executer.executeTask(["sync"]);
                     console.log(out);
-                    getTasks();
                 }
             }
             MenuItem {
                 text: qsTr("Add Task")
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"));
-                    dialog.accepted.connect(function() {
-                        getTasks();
-                    });
                 }
             }
         }
@@ -153,9 +149,6 @@ Page {
 
             onClicked: {
                 var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"), {taskData: model});
-                dialog.accepted.connect(function() {
-                    getTasks();
-                });
             }
         }
 
@@ -241,7 +234,6 @@ Page {
 
     function doneTask(tid) {
         var out = executer.executeTask([tid.toString(), "done"]);
-        getTasks();
         console.log(out);
     }
 }

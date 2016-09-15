@@ -46,6 +46,40 @@ Dialog {
             text: convert_tdate_to_jsdate(due)
             placeholderText: qsTr("Due date")
         }
+        ComboBox {
+            id: projectcombo
+            anchors.left: parent.left
+
+            ListModel {
+                id: projectmodel
+                ListElement {
+                    name: "Uni"
+                }
+                ListElement {
+                    name: "RobotING"
+                }
+            }
+
+
+            label: "Project: "
+            menu: ContextMenu {
+                id: projectcontextmenu
+                Repeater {
+                    id: projectrepeater
+                    model: projectmodel
+                    MenuItem {
+                        text: model.name
+                    }
+                }
+
+                MenuTextField {
+                    index: projectrepeater.count
+                    menu: projectcontextmenu
+                }
+
+
+            }
+        }
     }
 
     onDone: {
