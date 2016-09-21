@@ -34,6 +34,7 @@
 
 #include <sailfishapp.h>
 #include "taskexecuter.h"
+#include "taskwatcher.h"
 
 
 int main(int argc, char *argv[])
@@ -43,6 +44,7 @@ int main(int argc, char *argv[])
     QScopedPointer<QQuickView> v(SailfishApp::createView());
 
     qmlRegisterType<TaskExecuter>("eu.nagua", 1, 0, "TaskExecuter");
+    qmlRegisterType<TaskWatcher>("eu.nagua", 1, 0, "TaskWatcher");
     v->setSource(SailfishApp::pathTo("qml/Taskwarrior.qml"));
     v->show();
 

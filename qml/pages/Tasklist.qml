@@ -41,6 +41,10 @@ Page {
         id: executer
     }
 
+    TaskWatcher {
+        id: watcher
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
@@ -49,7 +53,24 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Load Data")
-                onClicked: getData()
+                onClicked: getTasks()
+            }
+            MenuItem {
+                text: qsTr("Syncronize")
+                onClicked: {
+                    var out = executer.executeTask(["sync"]);
+                    console.log(out);
+                    getTasks();
+                }
+            }
+            MenuItem {
+                text: qsTr("Add Task")
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"));
+                    dialog.accepted.connect(function() {
+                        getTasks();
+                    });
+                }
             }
         }
 
@@ -66,24 +87,75 @@ Page {
         Behavior on opacity { FadeAnimation {} }
 
         delegate: ListItem {
-            id: delegate
+            id: delegator
             width: parent.width
-            property int tid: model.id;
+            property int tid: model.id
 
-            Label {
+//            Image {
+//                id: done
+//                anchors {
+//                    left: parent.left
+//                    leftMargin: Theme.horizontalPageMargin
+//                    verticalCenter: parent.verticalCenter
+//                }
+//                source: "image://theme/icon-m-acknowledge"
+//            }
+
+            Column {
                 anchors {
+//                    left: done.right
                     left: parent.left
-                    leftMargin: Theme.paddingLarge
+                    leftMargin: Theme.paddingMedium
                     right: parent.right
                     rightMargin: Theme.horizontalPageMargin
                     verticalCenter: parent.verticalCenter
                 }
-                text: description
-                truncationMode: TruncationMode.Fade
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+
+                Label {
+                    width: parent.width
+                    text: description
+                    truncationMode: TruncationMode.Fade
+                    color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
+                }
+
+                Item {
+                    width: parent.width
+                    height: priority.height
+                    Label {
+                        id: priority
+                        opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        text: "Project: " + model.rawData.project
+                    }
+                    Label {
+                        anchors.right: parent.right
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        text: "Urgency: " + model.urgency
+                    }
+                }
+
             }
+
+            RemorseItem { id: remorse }
+
+            menu: ContextMenu {
+                id: taskcontextmenu
+                MenuItem {
+                    text: "Done"
+                    onClicked: {
+                        var timeout = 2000;
+                        remorse.execute(delegator, "Marking as done", function() { doneTask(tid) }, timeout);
+                    }
+                }
+            }
+
             onClicked: {
-                pageStack.push(Qt.resolvedUrl("DetailView.qml"), {taskData: model});
+                var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"), {taskData: model});
+                dialog.accepted.connect(function() {
+                    getTasks();
+                });
             }
         }
 
@@ -105,16 +177,21 @@ Page {
         }
     }
 
-    onTaskArgumentsChanged: {
-        getData();
+    Component.onCompleted: {
+        taskWindow.cover.reloadData.connect(getTasks);
+        watcher.TasksChanged.connect(getTasks);
     }
 
-    function getData()
+    onTaskArgumentsChanged: {
+        getTasks();
+    }
+
+    function getTasks()
     {
         taskModel.ready = false;
         // Get arguments from MainPage and split them on whitespace
         // also add "export"
-        var args = page.taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
+        var args = taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
         args.push("export");
 
         // Run taskwarrior
@@ -124,13 +201,47 @@ Page {
         // Parse JSON Data
         var task_data = JSON.parse(task_json_str);
         // Sort data by urgency
-        task_data.sort(function(a,b){ return b.urgency - a.urgency; });
+        task_data.sort(function(a,b) {
+            var aid = a.id;
+            var bid = b.id;
+            var au = a.urgency;
+            var bu = b.urgency
+
+            if (au === bu) {
+                return aid - bid;
+            }
+
+            return bu - au;
+        });
+
+        taskWindow.coverModel.clear();
+        var max_len = task_data.length < 6 ? task_data.length : 6;
+        for(var i = 0; i < max_len; i++) {
+            taskWindow.coverModel.append(task_data[i]);
+        }
 
         // Clear model and add new items
         taskModel.clear();
         for(var i = 0; i < task_data.length; i++) {
-            taskModel.append( task_data[i] );
+            var json = {};
+            json["description"] = task_data[i].description;
+            json["urgency"] = task_data[i].urgency;
+            json["status"] = task_data[i].status;
+            json["entry"] = task_data[i].entry;
+            json["uuid"] = task_data[i].uuid;
+            json["id"] = task_data[i].id;
+
+            // Add the rest of the data as an addition jsobject so it will not be unified
+            // Thus it is usable to reconstruct the task and modify it
+            json["rawData"] = task_data[i];
+            taskModel.append( json );
         }
         taskModel.ready = true;
+    }
+
+    function doneTask(tid) {
+        var out = executer.executeTask([tid.toString(), "done"]);
+        getTasks();
+        console.log(out);
     }
 }

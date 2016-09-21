@@ -2,7 +2,26 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
-    <name>AddView</name>
+    <name>DetailTask</name>
+    <message>
+        <source>Detail View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Due date</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DetailView</name>
     <message>
         <source>View Name</source>
         <translation type="unfinished"></translation>
@@ -29,32 +48,6 @@
     </message>
 </context>
 <context>
-    <name>CoverPage</name>
-    <message>
-        <source>Tasks</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DetailView</name>
-    <message>
-        <source>Detail View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Due date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Tasklist</name>
     <message>
         <source>Task list</source>
@@ -66,6 +59,14 @@
     </message>
     <message>
         <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Syncronize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add Task</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -81,6 +82,18 @@
     </message>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Task views</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom query</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter custom query here (Press enter)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

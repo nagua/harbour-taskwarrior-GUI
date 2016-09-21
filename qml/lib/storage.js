@@ -1,3 +1,4 @@
+.pragma library
 .import QtQuick.LocalStorage 2.0 as Storage
 
 var DB_VERSION = "0.1"

@@ -15,10 +15,10 @@ TARGET = Taskwarrior
 CONFIG += sailfishapp
 
 SOURCES += src/Taskwarrior.cpp \
-    src/taskexecuter.cpp
+    src/taskexecuter.cpp \
+    src/taskwatcher.cpp
 
 OTHER_FILES += qml/Taskwarrior.qml \
-    qml/cover/CoverPage.qml \
     rpm/Taskwarrior.changes.in \
     rpm/Taskwarrior.spec \
     rpm/Taskwarrior.yaml \
@@ -38,12 +38,15 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/Taskwarrior-de.ts
 
 HEADERS += \
-    src/taskexecuter.h
+    src/taskexecuter.h \
+    src/taskwatcher.h
 
 DISTFILES += \
     qml/pages/Tasklist.qml \
-    qml/pages/DetailView.qml \
     qml/pages/Viewlist.qml \
-    qml/pages/AddView.qml \
-    qml/lib/storage.js
+    qml/lib/storage.js \
+    qml/lib/utils.js \
+    qml/pages/DetailView.qml \
+    qml/pages/DetailTask.qml \
+    qml/cover/CoverPage.qml
 

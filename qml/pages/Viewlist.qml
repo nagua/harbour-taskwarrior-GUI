@@ -32,17 +32,13 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import "../lib/storage.js" as DB
+import "../lib/utils.js" as UT
 
 
 Page {
     id: page
 
-    function copyViewModel(view) {
-        return {lid: view.lid, page: view.page, name: view.name, query: view.query, section: view.section};
-    }
-
     SilicaListView {
-        id: listView
         anchors.fill: parent
 
         PullDownMenu {
@@ -54,7 +50,7 @@ Page {
             MenuItem {
                 text: qsTr("Add View")
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"));
+                    var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"));
                     dialog.accepted.connect(function() {
                         var item = {page: "Tasklist.qml", name: dialog.name, query: dialog.query, section: dialog.section}
                         DB.addView(item);
@@ -97,28 +93,32 @@ Page {
             width: parent.width
             PageHeader {
                 width: parent.width
-                title: "Taskwarrior"
+                title: qsTr("Task views")
             }
-            Row {
-                width: parent.width
-                spacing: Theme.paddingSmall
+            Item {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    rightMargin: Theme.paddingMedium
+                }
+                height: queryicon.height
                 TextField {
                     id: query
-                    width: parent.width - Theme.iconSizeMedium - 2*Theme.paddingSmall
-                    label: "Custom query"
-                    placeholderText: "Enter custom query here (Press enter)"
+                    anchors.left: parent.left
+                    anchors.right: queryicon.left
+                    label: qsTr("Custom query")
+                    placeholderText: qsTr("Enter custom query here (Press enter)")
 
                     Keys.onReturnPressed: {
-                        taskWindow.taskArguments = query.text;
-                        pageStack.navigateBack();
+                        changeView(query.text);
                     }
                 }
                 IconButton {
-                    width: Theme.iconSizeMedium
-                    icon.source: "image://theme/icon-m-enter"
+                    id: queryicon
+                    anchors.right: parent.right
+                    icon.source: "image://theme/icon-m-right"
                     onClicked: {
-                        taskWindow.taskArguments = query.text;
-                        pageStack.navigateBack();
+                        changeView(query.text);
                     }
                 }
             }
@@ -133,7 +133,6 @@ Page {
 
         model: pagesModel
         delegate: ListItem {
-            width: listView.width
             Label {
                 id: firstName
                 text: model.name
@@ -141,12 +140,17 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 x: Theme.horizontalPageMargin
             }
-            menu: ContextMenu {
+
+            menu: model.lid >= 0 ? context : undefined
+
+            ContextMenu {
+                id: context
+
                 MenuItem {
                     text: qsTr("Edit")
                     onClicked: {
-                        var m = copyViewModel(model);
-                        var dialog = pageStack.push(Qt.resolvedUrl("AddView.qml"), {name: m.name, query: m.query, section: m.section});;
+                        var m = UT.copyItem(model);
+                        var dialog = pageStack.push(Qt.resolvedUrl("DetailView.qml"), {name: m.name, query: m.query, section: m.section});;
                         dialog.accepted.connect(function() {
                             m.name = dialog.name
                             m.query = dialog.query
@@ -159,8 +163,7 @@ Page {
                 MenuItem {
                     text: qsTr("Delete")
                     onClicked: {
-                        if(model.lid >= 0)
-                        {
+                        if(model.lid >= 0) {
                             DB.deleteView(model);
                             pagesModel.remove(model.index);
                         }
@@ -169,13 +172,18 @@ Page {
             }
 
             onClicked: {
-                taskWindow.taskArguments = model.query;
-                pageStack.navigateBack();
+                changeView(model.query);
             }
         }
 
+
         VerticalScrollDecorator {}
     }
+
+    function changeView(args) {
+        if(args !== "") {
+            taskWindow.taskArguments = args;
+            pageStack.navigateBack();
+        }
+    }
 }
-
-

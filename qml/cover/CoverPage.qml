@@ -32,23 +32,73 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: qsTr("Tasks")
+
+    BackgroundItem {
+        anchors.fill: parent
+
+        Image {
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
+            source: "../images/taskwarrior_head.png"
+            opacity: 0.2
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
+        }
     }
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: Theme.paddingSmall
+        color: "transparent"
+
+        Label {
+            id: header
+            text: "Tasks"
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        ListView {
+            id: taskListView
+            model: taskWindow.coverModel
+            property real itemHeight: Theme.iconSizeSmall + Theme.paddingSmall
+
+            anchors {
+                top: header.bottom
+                topMargin: Theme.paddingSmall
+            }
+            clip: true
+            width: parent.width
+            height: 6*itemHeight
+
+            delegate: Label {
+                anchors {
+                    leftMargin: Theme.paddingLarge
+                    rightMargin: Theme.paddingLarge
+                    left: parent.left
+                    right: parent.right
+                }
+                height: taskListView.itemHeight
+                text: model.description
+                font.pixelSize: Theme.fontSizeSmall
+                truncationMode: TruncationMode.Fade
+            }
+
+        }
+    }
+
+
+    signal reloadData()
 
     CoverActionList {
         id: coverAction
 
         CoverAction {
             iconSource: "image://theme/icon-cover-new"
+            onTriggered: {
+                var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailTask.qml"));
+                dialog.accepted.connect(function() { reloadData(); });
+                taskWindow.activate();
+            }
         }
-
-        //CoverAction {
-        //    iconSource: "image://theme/icon-cover-pause"
-        //}
     }
 }
-
-
