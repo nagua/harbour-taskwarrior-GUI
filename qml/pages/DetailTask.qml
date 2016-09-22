@@ -75,6 +75,8 @@ Dialog {
                 MenuTextField {
                     index: projectrepeater.count
                     menu: projectcontextmenu
+                    label: "Project"
+                    placeholderText: "Project"
                 }
 
 

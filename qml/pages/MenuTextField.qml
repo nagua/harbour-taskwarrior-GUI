@@ -8,6 +8,8 @@ Item {
     property bool highlighted
     property int __silica_menuitem
     property alias text: field.text
+    property alias label: field.label
+    property alias placeholderText: field.placeholderText
 
     // Needed properties to use as an menu item
     // Index is zero based
@@ -25,8 +27,6 @@ Item {
         anchors.left: parent.left
         anchors.right: icon.left
         width: parent.width
-        label: "Test"
-        placeholderText: "Test"
 
         Keys.onReturnPressed: {
             menu.activated(index)
