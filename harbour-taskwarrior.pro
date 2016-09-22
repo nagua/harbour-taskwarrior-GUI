@@ -10,7 +10,7 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = Taskwarrior
+TARGET = harbour-taskwarrior
 
 CONFIG += sailfishapp
 
@@ -19,11 +19,11 @@ SOURCES += src/Taskwarrior.cpp \
     src/taskwatcher.cpp
 
 OTHER_FILES += qml/Taskwarrior.qml \
-    rpm/Taskwarrior.changes.in \
-    rpm/Taskwarrior.spec \
-    rpm/Taskwarrior.yaml \
+    rpm/harbour-taskwarrior.changes.in \
+    rpm/harbour-taskwarrior.spec \
+    rpm/harbour-taskwarrior.yaml \
     translations/*.ts \
-    Taskwarrior.desktop
+    harbour-taskwarrior.desktop
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
@@ -35,7 +35,7 @@ CONFIG += sailfishapp_i18n
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/Taskwarrior-de.ts
+TRANSLATIONS += translations/harbour-taskwarrior-de.ts
 
 HEADERS += \
     src/taskexecuter.h \

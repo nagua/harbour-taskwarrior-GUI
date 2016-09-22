@@ -28,9 +28,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef QT_QML_DEBUG
 #include <QtQuick>
-#endif
 
 #include <sailfishapp.h>
 #include "taskexecuter.h"
@@ -43,8 +41,8 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> v(SailfishApp::createView());
 
-    qmlRegisterType<TaskExecuter>("eu.nagua", 1, 0, "TaskExecuter");
-    qmlRegisterType<TaskWatcher>("eu.nagua", 1, 0, "TaskWatcher");
+    qmlRegisterType<TaskExecuter>("harbour.taskwarrior", 1, 0, "TaskExecuter");
+    qmlRegisterType<TaskWatcher>("harbour.taskwarrior", 1, 0, "TaskWatcher");
     v->setSource(SailfishApp::pathTo("qml/Taskwarrior.qml"));
     v->show();
 

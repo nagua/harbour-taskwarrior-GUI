@@ -2,7 +2,7 @@
 
 TaskWatcher::TaskWatcher(QObject *parent) : QObject(parent), m_watch(new QFileSystemWatcher(this))
 {
-    m_watch->addPath("/home/nemo/.task/undo.data");
+    m_watch->addPath("$HOME/.task/undo.data");
     connect(m_watch, &QFileSystemWatcher::fileChanged, this, &TaskWatcher::fileHasChanged);
 }
 

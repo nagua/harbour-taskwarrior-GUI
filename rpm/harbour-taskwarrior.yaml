@@ -1,11 +1,11 @@
-Name: Taskwarrior
+Name: harbour-taskwarrior
 Summary: A GUI for Taskwarrior
 Version: 0.1
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
 Group: Qt/Qt
-URL: http://example.org/
+URL: https://github.com/nagua/harbour-Taskwarrior-GUI
 License: LICENSE
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.

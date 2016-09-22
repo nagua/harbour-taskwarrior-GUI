@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 X-Nemo-Application-Type=silica-qt5
-Icon=Taskwarrior
-Exec=Taskwarrior
+Icon=harbour-taskwarrior
+Exec=harbour-taskwarrior
 Name=Taskwarrior
 # translation example:
 # your app name in German locale (de)

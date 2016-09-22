@@ -1,6 +1,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-import eu.nagua 1.0
+import harbour.taskwarrior 1.0
 import "../lib/utils.js" as UT
 
 Dialog {
