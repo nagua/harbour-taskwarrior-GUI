@@ -107,7 +107,7 @@ Page {
                     anchors.left: parent.left
                     anchors.right: queryicon.left
                     label: qsTr("Custom query")
-                    placeholderText: qsTr("Enter custom query here (Press enter)")
+                    placeholderText: qsTr("Enter custom query")
 
                     Keys.onReturnPressed: {
                         changeView(query.text);
