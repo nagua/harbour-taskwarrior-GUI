@@ -56,7 +56,7 @@ Page {
                 onClicked: getTasks()
             }
             MenuItem {
-                text: qsTr("Syncronize")
+                text: qsTr("Synchronize")
                 onClicked: {
                     var out = executer.executeTask(["sync"]);
                     console.log(out);
