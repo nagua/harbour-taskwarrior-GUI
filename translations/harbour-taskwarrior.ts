@@ -9,20 +9,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="30"/>
-        <location filename="../qml/pages/DetailTask.qml" line="32"/>
+        <location filename="../qml/pages/DetailTask.qml" line="31"/>
+        <location filename="../qml/pages/DetailTask.qml" line="33"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="37"/>
-        <location filename="../qml/pages/DetailTask.qml" line="39"/>
+        <location filename="../qml/pages/DetailTask.qml" line="38"/>
+        <location filename="../qml/pages/DetailTask.qml" line="40"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="44"/>
-        <location filename="../qml/pages/DetailTask.qml" line="46"/>
+        <location filename="../qml/pages/DetailTask.qml" line="45"/>
+        <location filename="../qml/pages/DetailTask.qml" line="47"/>
         <source>Due date</source>
         <translation type="unfinished"></translation>
     </message>
@@ -69,7 +69,7 @@
     </message>
     <message>
         <location filename="../qml/pages/Tasklist.qml" line="59"/>
-        <source>Syncronize</source>
+        <source>Synchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -107,7 +107,7 @@
     </message>
     <message>
         <location filename="../qml/pages/Viewlist.qml" line="110"/>
-        <source>Enter custom query here (Press enter)</source>
+        <source>Enter custom query</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
