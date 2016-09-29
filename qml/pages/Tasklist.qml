@@ -31,6 +31,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import harbour.taskwarrior 1.0
+import "../lib/utils.js" as UT
 
 
 Page {
@@ -120,19 +121,21 @@ Page {
 
                 Item {
                     width: parent.width
-                    height: priority.height
+                    height: project.height
                     Label {
-                        id: priority
+                        // This is the project field
+                        id: project
                         opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
                         font.pixelSize: Theme.fontSizeExtraSmall
                         color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: "Project: " + model.rawData.project
+                        text: showProject(model.rawData.project)
                     }
                     Label {
+                        // This is the due date field
                         anchors.right: parent.right
                         font.pixelSize: Theme.fontSizeExtraSmall
                         color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: "Urgency: " + model.urgency
+                        text: showDueDate(model.rawData.due)
                     }
                 }
 
@@ -237,6 +240,21 @@ Page {
             taskModel.append( json );
         }
         taskModel.ready = true;
+    }
+
+    function showProject(project) {
+        if (typeof project === "undefined")
+            return ""
+        return "Project: " + project
+    }
+
+    function showDueDate(date) {
+        if (typeof date === "undefined")
+            return ""
+
+        var c_date = UT.convert_tdate_to_jsdate(date);
+        var f_date = Format.formatDate(c_date, Formatter.DurationElapsed);
+        return "Due " + f_date
     }
 
     function doneTask(tid) {
