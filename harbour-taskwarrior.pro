@@ -50,5 +50,6 @@ DISTFILES += \
     qml/pages/DetailTask.qml \
     qml/cover/CoverPage.qml \
     qml/pages/DateView.qml \
-    qml/pages/Divider.qml
+    qml/pages/Divider.qml \
+    qml/pages/FilterView.qml
 
