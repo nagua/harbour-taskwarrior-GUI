@@ -75,7 +75,7 @@ Page {
                 lid: -1
                 page: "Tasklist.qml"
                 name: "Due today"
-                query: "+OVERDUE"
+                query: "+OVERDUE or +DUETODAY"
                 section: "Smart"
             }
 
