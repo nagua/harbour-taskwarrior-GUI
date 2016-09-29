@@ -27,7 +27,7 @@ Dialog {
             id: descriptionfield
             width: parent.width
             wrapMode: Text.Wrap
-            focus: true
+            focus: description === "" ? true : false
             label: qsTr("Description")
             text: description
             placeholderText: qsTr("Description")
