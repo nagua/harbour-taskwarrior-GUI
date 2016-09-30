@@ -24,10 +24,14 @@ Item {
     OpacityRampEffect {
         sourceItem: cut_line_fst
         direction: OpacityRamp.RightToLeft
+        offset: 0
+        slope: 1.3
     }
     OpacityRampEffect {
         sourceItem: cut_line_snd
         direction: OpacityRamp.LeftToRight
+        offset: 0
+        slope: 1.3
     }
 }
 
