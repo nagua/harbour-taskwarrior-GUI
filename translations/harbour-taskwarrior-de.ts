@@ -21,9 +21,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="45"/>
-        <location filename="../qml/pages/DetailTask.qml" line="47"/>
-        <source>Due date</source>
+        <location filename="../qml/pages/DetailTask.qml" line="99"/>
+        <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -83,7 +82,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="173"/>
+        <location filename="../qml/pages/Tasklist.qml" line="174"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>

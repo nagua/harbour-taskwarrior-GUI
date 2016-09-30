@@ -49,5 +49,6 @@ DISTFILES += \
     qml/pages/DetailView.qml \
     qml/pages/DetailTask.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/DateView.qml
+    qml/pages/DateView.qml \
+    qml/pages/Divider.qml
 

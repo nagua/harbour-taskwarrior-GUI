@@ -119,7 +119,7 @@ Page {
                     height: childrenRect.height
                     Label {
                         // This is the project field
-                        opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
+                        anchors.left: parent.left
                         font.pixelSize: Theme.fontSizeExtraSmall
                         color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                         text: showProject(model.rawData.project)
@@ -132,6 +132,7 @@ Page {
                         text: showDueDate(model.rawData.due)
                     }
                 }
+                Divider {}
 
             }
 
@@ -247,7 +248,7 @@ Page {
             return ""
 
         var js_date = UT.convert_tdate_to_jsdate(date);
-        var fo_date = Format.formatDate(js_date, Formatter.DurationElapsed);
+        var fo_date = Format.formatDate(js_date, Formatter.DurationElapsedShort);
         return "Due " + fo_date
     }
 

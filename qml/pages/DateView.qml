@@ -2,6 +2,9 @@ import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 Dialog {
+    id: dialog
+    property var date_value: new Date(Date.now())
+
     SilicaFlickable {
         id: flick
         anchors.fill: parent
@@ -35,24 +38,12 @@ Dialog {
                 columns: 3
                 Repeater {
                     model: ListModel {
-                        ListElement {
-                            name: "today"
-                        }
-                        ListElement {
-                            name: "tomorrow"
-                        }
-                        ListElement {
-                            name: "next week"
-                        }
-                        ListElement {
-                            name: "today"
-                        }
-                        ListElement {
-                            name: "tomorrow"
-                        }
-                        ListElement {
-                            name: "next week"
-                        }
+                        ListElement { name: "today" }
+                        ListElement { name: "tomorrow" }
+                        ListElement { name: "next week" }
+                        /*ListElement { name: "today" }
+                        ListElement { name: "tomorrow" }
+                        ListElement { name: "next week" }*/
                     }
                     delegate: Button {
                         text: name
@@ -71,10 +62,13 @@ Dialog {
 
             DatePicker {
                 id: datePicker
+                date: dialog.date_value
             }
             TimePicker {
                 id: time
                 anchors.horizontalCenter: parent.horizontalCenter
+                hour: date_value.getHours()
+                minute: date_value.getMinutes()
                 Label {
                     anchors {
                         centerIn: parent

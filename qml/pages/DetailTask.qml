@@ -39,12 +39,24 @@ Dialog {
             text: project
             placeholderText: qsTr("Project")
         }
-        TextField {
+        /*TextField {
             id: duefield
             width: parent.width
             label: qsTr("Due date")
-            text: UT.convert_tdate_to_jsdate(due)
+            text: Format.formatDate(new Date(UT.convert_tdate_to_jsdate(due)),Formatter.DateMedium)
             placeholderText: qsTr("Due date")
+        }*/
+        ValueButton {
+            label: "Due date"
+            value: formatDate(due)
+            onClicked: {
+                if (due !== "") {
+                    var js_date = new Date(UT.convert_tdate_to_jsdate(due));
+                    pageStack.push(Qt.resolvedUrl("DateView.qml"), {date_value: js_date})
+                } else {
+                    pageStack.push(Qt.resolvedUrl("DateView.qml"))
+                }
+            }
         }
     }
 
@@ -76,5 +88,15 @@ Dialog {
             return taskData.rawData[item];
         }
         return "";
+    }
+
+    function formatDate(str_date) {
+        if (str_date !== "") {
+            var js_date = new Date(UT.convert_tdate_to_jsdate(str_date));
+            var fo_date = Format.formatDate(js_date, Formatter.TimepointRelativeCurrentDay);
+            return fo_date;
+        } else {
+            return qsTr("no due date set")
+        }
     }
 }
