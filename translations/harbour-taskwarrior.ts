@@ -73,17 +73,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="67"/>
+        <location filename="../qml/pages/Tasklist.qml" line="66"/>
         <source>Add Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="83"/>
+        <location filename="../qml/pages/Tasklist.qml" line="79"/>
         <source>Task list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="176"/>
+        <location filename="../qml/pages/Tasklist.qml" line="169"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
