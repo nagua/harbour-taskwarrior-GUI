@@ -48,5 +48,6 @@ DISTFILES += \
     qml/lib/utils.js \
     qml/pages/DetailView.qml \
     qml/pages/DetailTask.qml \
-    qml/cover/CoverPage.qml
+    qml/cover/CoverPage.qml \
+    qml/pages/DateView.qml
 

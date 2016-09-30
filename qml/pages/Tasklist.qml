@@ -53,6 +53,11 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
+                text: "test"
+                onClicked: pageStack.push(Qt.resolvedUrl("DateView.qml"))
+            }
+
+            MenuItem {
                 text: qsTr("Load Data")
                 onClicked: getTasks()
             }
@@ -92,25 +97,15 @@ Page {
             width: parent.width
             property int tid: model.id
 
-//            Image {
-//                id: done
-//                anchors {
-//                    left: parent.left
-//                    leftMargin: Theme.horizontalPageMargin
-//                    verticalCenter: parent.verticalCenter
-//                }
-//                source: "image://theme/icon-m-acknowledge"
-//            }
-
             Column {
                 anchors {
-//                    left: done.right
                     left: parent.left
-                    leftMargin: Theme.paddingMedium
+                    leftMargin: Theme.horizontalPageMargin
                     right: parent.right
                     rightMargin: Theme.horizontalPageMargin
                     verticalCenter: parent.verticalCenter
                 }
+
 
                 Label {
                     width: parent.width
@@ -121,10 +116,9 @@ Page {
 
                 Item {
                     width: parent.width
-                    height: project.height
+                    height: childrenRect.height
                     Label {
                         // This is the project field
-                        id: project
                         opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
                         font.pixelSize: Theme.fontSizeExtraSmall
                         color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
@@ -252,9 +246,9 @@ Page {
         if (typeof date === "undefined")
             return ""
 
-        var c_date = UT.convert_tdate_to_jsdate(date);
-        var f_date = Format.formatDate(c_date, Formatter.DurationElapsed);
-        return "Due " + f_date
+        var js_date = UT.convert_tdate_to_jsdate(date);
+        var fo_date = Format.formatDate(js_date, Formatter.DurationElapsed);
+        return "Due " + fo_date
     }
 
     function doneTask(tid) {

@@ -63,27 +63,27 @@
 <context>
     <name>Tasklist</name>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="56"/>
+        <location filename="../qml/pages/Tasklist.qml" line="61"/>
         <source>Load Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="60"/>
+        <location filename="../qml/pages/Tasklist.qml" line="65"/>
         <source>Synchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="68"/>
+        <location filename="../qml/pages/Tasklist.qml" line="73"/>
         <source>Add Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="84"/>
+        <location filename="../qml/pages/Tasklist.qml" line="89"/>
         <source>Task list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="179"/>
+        <location filename="../qml/pages/Tasklist.qml" line="173"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>

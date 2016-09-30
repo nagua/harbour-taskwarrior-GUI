@@ -1,6 +1,5 @@
 .pragma library
 
-
 function copyItem(data) {
     var ret = {};
     for (var p in data) {
@@ -27,4 +26,9 @@ function convert_tdate_to_jsdate(date) {
 
     var utc_date = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + "Z";
     return utc_date;
+}
+
+function convert_jsdate_to_tdate(date) {
+    var tdate = Qt.formatDateTime(date, "yyyyMMddThhmmssZ");
+    return tdate;
 }
