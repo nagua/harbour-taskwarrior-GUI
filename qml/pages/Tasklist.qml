@@ -97,43 +97,50 @@ Page {
             width: parent.width
             property int tid: model.id
 
-            Column {
-                anchors {
-                    left: parent.left
-                    leftMargin: Theme.horizontalPageMargin
-                    right: parent.right
-                    rightMargin: Theme.horizontalPageMargin
-                    verticalCenter: parent.verticalCenter
-                }
-
-
-                Label {
-                    width: parent.width
-                    text: description
-                    truncationMode: TruncationMode.Fade
-                    color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
-                }
-
-                Item {
-                    width: parent.width
+            Rectangle {
+                width: parent.width
+                height: col.height
+                color: index % 2 == 0 ? "#208799b5" : "transparent"
+                Column {
+                    id: col
                     height: childrenRect.height
-                    Label {
-                        // This is the project field
-                        anchors.left: parent.left
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: showProject(model.rawData.project)
+                    anchors {
+                        left: parent.left
+                        leftMargin: Theme.horizontalPageMargin
+                        right: parent.right
+                        rightMargin: Theme.horizontalPageMargin
+                        verticalCenter: parent.verticalCenter
                     }
-                    Label {
-                        // This is the due date field
-                        anchors.right: parent.right
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: showDueDate(model.rawData.due)
-                    }
-                }
-                Divider {}
 
+
+                    Label {
+                        width: parent.width
+                        text: description
+                        truncationMode: TruncationMode.Fade
+                        color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    }
+
+                    Item {
+                        width: parent.width
+                        height: childrenRect.height
+                        Label {
+                            // This is the project field
+                            anchors.left: parent.left
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            text: showProject(model.rawData.project)
+                        }
+                        Label {
+                            // This is the due date field
+                            anchors.right: parent.right
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            text: showDueDate(model.rawData.due)
+                        }
+                    }
+                    //Divider {}
+
+                }
             }
 
             RemorseItem { id: remorse }
