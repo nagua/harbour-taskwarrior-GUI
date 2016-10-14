@@ -20,9 +20,10 @@ Dialog {
 
         DialogHeader {}
 
-        SectionHeader {
-            text: qsTr("Detail View")
+        PageHeader {
+            title: taskData ? "Modify Task" : "Add Task"
         }
+
         TextArea {
             id: descriptionfield
             width: parent.width
@@ -39,13 +40,6 @@ Dialog {
             text: project
             placeholderText: qsTr("Project")
         }
-        /*TextField {
-            id: duefield
-            width: parent.width
-            label: qsTr("Due date")
-            text: Format.formatDate(new Date(UT.convert_tdate_to_jsdate(due)),Formatter.DateMedium)
-            placeholderText: qsTr("Due date")
-        }*/
         ValueButton {
             label: "Due date"
             value: formatDate(due)

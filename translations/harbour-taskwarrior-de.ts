@@ -4,24 +4,19 @@
 <context>
     <name>DetailTask</name>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="24"/>
-        <source>Detail View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/DetailTask.qml" line="31"/>
-        <location filename="../qml/pages/DetailTask.qml" line="33"/>
+        <location filename="../qml/pages/DetailTask.qml" line="36"/>
+        <location filename="../qml/pages/DetailTask.qml" line="38"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="38"/>
-        <location filename="../qml/pages/DetailTask.qml" line="40"/>
+        <location filename="../qml/pages/DetailTask.qml" line="43"/>
+        <location filename="../qml/pages/DetailTask.qml" line="45"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="99"/>
+        <location filename="../qml/pages/DetailTask.qml" line="104"/>
         <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -82,7 +77,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="174"/>
+        <location filename="../qml/pages/Tasklist.qml" line="181"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>

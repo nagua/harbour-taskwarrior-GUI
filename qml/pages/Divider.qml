@@ -4,13 +4,13 @@ import Sailfish.Silica 1.0
 Item {
     width: parent.width
     height: childrenRect.height
+    opacity: 0.4
     Rectangle {
         id: cut_line_fst
         anchors.left: parent.left
         width: parent.width/2
         height: 2
         color: "gray"
-        opacity: 0.2
     }
     Rectangle {
         id: cut_line_snd
@@ -18,7 +18,6 @@ Item {
         anchors.right: parent.right
         height: 2
         color: "gray"
-        opacity: 0.2
     }
 
     OpacityRampEffect {

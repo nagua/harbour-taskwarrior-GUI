@@ -32,3 +32,19 @@ function convert_jsdate_to_tdate(date) {
     var tdate = Qt.formatDateTime(date, "yyyyMMddThhmmssZ");
     return tdate;
 }
+
+function add_days_to_date(dateObj, days) {
+    var ret = new Date(dateObj);
+    ret.setDate(dateObj.getDate() + days);
+    return ret;
+}
+
+function add_months_to_date(dateObj, months) {
+    var currentMonth = dateObj.getMonth();
+    dateObj.setMonth(dateObj.getMonth() + months)
+
+    if (dateObj.getMonth() !== ((currentMonth + months) % 12)){
+        dateObj.setDate(0);
+    }
+    return dateObj;
+}
