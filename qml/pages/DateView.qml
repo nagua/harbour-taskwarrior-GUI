@@ -39,7 +39,6 @@ Dialog {
                 text: Format.formatDate(datePicker.date, Formatter.MonthNameStandalone) + " " + datePicker.date.getFullYear()
                 font.family: Theme.fontFamilyHeading
                 font.pixelSize: Theme.fontSizeLarge
-
             }
 
             DatePicker {
@@ -116,22 +115,28 @@ Dialog {
                 height: 20
             }
 
-            TimePicker {
-                id: timePicker
-                anchors.horizontalCenter: parent.horizontalCenter
-                hour: date_value.getHours()
-                minute: date_value.getMinutes()
-                Label {
-                    anchors {
-                        centerIn: parent
-                    }
-                    text: parent.timeText
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: Theme.fontSizeLarge
-                }
-                //onMinuteChanged: doRoundTo15Minutes()
-            }
+//            TimePicker {
+//                id: timePicker
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                hour: date_value.getHours()
+//                minute: date_value.getMinutes()
+//                Label {
+//                    anchors {
+//                        centerIn: parent
+//                    }
+//                    text: parent.timeText
+//                    font.family: Theme.fontFamilyHeading
+//                    font.pixelSize: Theme.fontSizeLarge
+//                }
+//                //onMinuteChanged: doRoundTo15Minutes()
+//            }
+        }
+    }
+
+    onDone: {
+        if ( result == DialogResult.Accepted ) {
+            console.log(datePicker.date)
+            date_value = datePicker.date
         }
     }
 }
-

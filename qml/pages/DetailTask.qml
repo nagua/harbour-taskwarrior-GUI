@@ -40,15 +40,35 @@ Dialog {
             text: project
             placeholderText: qsTr("Project")
         }
-        ValueButton {
-            label: "Due date"
-            value: formatDate(due)
-            onClicked: {
-                if (due !== "") {
-                    var js_date = new Date(UT.convert_tdate_to_jsdate(due));
-                    pageStack.push(Qt.resolvedUrl("DateView.qml"), {date_value: js_date})
-                } else {
-                    pageStack.push(Qt.resolvedUrl("DateView.qml"))
+        Item {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: queryicon.height
+            ValueButton {
+                label: "Due date"
+                value: formatDate(due)
+                anchors.left: parent.left
+                anchors.right: queryicon.left
+                onClicked: {
+                    var dialog;
+                    if (due !== "") {
+                        var js_date = new Date(UT.convert_tdate_to_jsdate(due));
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"), {date_value: js_date})
+                    } else {
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"))
+                    }
+                    dialog.accepted.connect(function() {
+                        console.log(dialog.date_value);
+                        due = UT.convert_jsdate_to_tdate(dialog.date_value);
+                    });
+                }
+            }
+            IconButton {
+                id: queryicon
+                anchors.right: parent.right
+                icon.source: "image://theme/icon-m-clear"
+                onClicked: {
+                    due = ""
                 }
             }
         }
@@ -60,15 +80,16 @@ Dialog {
             var out = "";
             if (typeof taskData == "undefined") {
                 json["description"] = descriptionfield.text;
-                json["project"] = projectfield.text
-                //json["due"] = duefield.text
+                json["project"] = projectfield.text !== "" ? projectfield.text : undefined
+                json["due"] = due !== "" ? due : undefined
                 out = executer.executeTask(["import", "-"], JSON.stringify(json));
                 console.log(out);
             }
             else {
                 json = UT.copyItem(taskData.rawData);
                 json["description"] = descriptionfield.text;
-                json["project"] = projectfield.text
+                json["project"] = projectfield.text !== "" ? projectfield.text : undefined
+                json["due"] = due !== "" ? due : undefined
                 console.log(JSON.stringify(json));
                 out = executer.executeTask(["import", "-"], JSON.stringify(json));
                 console.log(out);
@@ -87,7 +108,7 @@ Dialog {
     function formatDate(str_date) {
         if (str_date !== "") {
             var js_date = new Date(UT.convert_tdate_to_jsdate(str_date));
-            var fo_date = Format.formatDate(js_date, Formatter.TimepointRelativeCurrentDay);
+            var fo_date = Format.formatDate(js_date, Formatter.DateMedium);
             return fo_date;
         } else {
             return qsTr("no due date set")

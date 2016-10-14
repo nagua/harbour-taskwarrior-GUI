@@ -246,7 +246,7 @@ Page {
 
     function showProject(project) {
         if (typeof project === "undefined")
-            return ""
+            return "Project:"
         return "Project: " + project
     }
 
