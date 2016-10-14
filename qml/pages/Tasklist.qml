@@ -98,8 +98,7 @@ Page {
             property int tid: model.id
 
             Rectangle {
-                width: parent.width
-                height: col.height
+                anchors.fill: parent
                 color: index % 2 == 0 ? "#208799b5" : "transparent"
                 Column {
                     id: col

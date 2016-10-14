@@ -77,7 +77,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="181"/>
+        <location filename="../qml/pages/Tasklist.qml" line="180"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
