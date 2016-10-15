@@ -31,6 +31,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import harbour.taskwarrior 1.0
+import "../lib/utils.js" as UT
 
 
 Page {
@@ -51,6 +52,11 @@ Page {
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
+            MenuItem {
+                text: "test"
+                onClicked: pageStack.push(Qt.resolvedUrl("DateView.qml"))
+            }
+
             MenuItem {
                 text: qsTr("Load Data")
                 onClicked: getTasks()
@@ -91,51 +97,49 @@ Page {
             width: parent.width
             property int tid: model.id
 
-//            Image {
-//                id: done
-//                anchors {
-//                    left: parent.left
-//                    leftMargin: Theme.horizontalPageMargin
-//                    verticalCenter: parent.verticalCenter
-//                }
-//                source: "image://theme/icon-m-acknowledge"
-//            }
-
-            Column {
-                anchors {
-//                    left: done.right
-                    left: parent.left
-                    leftMargin: Theme.paddingMedium
-                    right: parent.right
-                    rightMargin: Theme.horizontalPageMargin
-                    verticalCenter: parent.verticalCenter
-                }
-
-                Label {
-                    width: parent.width
-                    text: description
-                    truncationMode: TruncationMode.Fade
-                    color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
-                }
-
-                Item {
-                    width: parent.width
-                    height: priority.height
-                    Label {
-                        id: priority
-                        opacity: model.rawData.hasOwnProperty("project") ? 1.0 : 0.0
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: "Project: " + model.rawData.project
+            Rectangle {
+                anchors.fill: parent
+                color: index % 2 == 0 ? "#208799b5" : "transparent"
+                Column {
+                    id: col
+                    height: childrenRect.height
+                    anchors {
+                        left: parent.left
+                        leftMargin: Theme.horizontalPageMargin
+                        right: parent.right
+                        rightMargin: Theme.horizontalPageMargin
+                        verticalCenter: parent.verticalCenter
                     }
-                    Label {
-                        anchors.right: parent.right
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        text: "Urgency: " + model.urgency
-                    }
-                }
 
+
+                    Label {
+                        width: parent.width
+                        text: description
+                        truncationMode: TruncationMode.Fade
+                        color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    }
+
+                    Item {
+                        width: parent.width
+                        height: childrenRect.height
+                        Label {
+                            // This is the project field
+                            anchors.left: parent.left
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            text: showProject(model.rawData.project)
+                        }
+                        Label {
+                            // This is the due date field
+                            anchors.right: parent.right
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegator.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            text: showDueDate(model.rawData.due)
+                        }
+                    }
+                    //Divider {}
+
+                }
             }
 
             RemorseItem { id: remorse }
@@ -237,6 +241,21 @@ Page {
             taskModel.append( json );
         }
         taskModel.ready = true;
+    }
+
+    function showProject(project) {
+        if (typeof project === "undefined")
+            return "Project:"
+        return "Project: " + project
+    }
+
+    function showDueDate(date) {
+        if (typeof date === "undefined")
+            return ""
+
+        var js_date = UT.convert_tdate_to_jsdate(date);
+        var fo_date = Format.formatDate(js_date, Formatter.DurationElapsedShort);
+        return "Due " + fo_date
     }
 
     function doneTask(tid) {

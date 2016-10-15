@@ -4,26 +4,20 @@
 <context>
     <name>DetailTask</name>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="24"/>
-        <source>Detail View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/DetailTask.qml" line="31"/>
-        <location filename="../qml/pages/DetailTask.qml" line="33"/>
+        <location filename="../qml/pages/DetailTask.qml" line="32"/>
+        <location filename="../qml/pages/DetailTask.qml" line="34"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="38"/>
-        <location filename="../qml/pages/DetailTask.qml" line="40"/>
+        <location filename="../qml/pages/DetailTask.qml" line="39"/>
+        <location filename="../qml/pages/DetailTask.qml" line="41"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="45"/>
-        <location filename="../qml/pages/DetailTask.qml" line="47"/>
-        <source>Due date</source>
+        <location filename="../qml/pages/DetailTask.qml" line="114"/>
+        <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -63,27 +57,27 @@
 <context>
     <name>Tasklist</name>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="55"/>
+        <location filename="../qml/pages/Tasklist.qml" line="61"/>
         <source>Load Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="59"/>
+        <location filename="../qml/pages/Tasklist.qml" line="65"/>
         <source>Synchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="67"/>
+        <location filename="../qml/pages/Tasklist.qml" line="73"/>
         <source>Add Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="83"/>
+        <location filename="../qml/pages/Tasklist.qml" line="89"/>
         <source>Task list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="176"/>
+        <location filename="../qml/pages/Tasklist.qml" line="180"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
