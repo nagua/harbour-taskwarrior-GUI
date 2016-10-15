@@ -37,6 +37,7 @@ import "../lib/utils.js" as UT
 Page {
     id: page
     property string taskArguments
+    property var date_value: new Date(Date.now())
 
     TaskExecuter {
         id: executer
@@ -115,6 +116,7 @@ Page {
                     Label {
                         width: parent.width
                         text: description
+                        font.bold: isOverdue(model.rawData.due)
                         truncationMode: TruncationMode.Fade
                         color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
                     }
@@ -257,6 +259,15 @@ Page {
         var fo_date = Format.formatDate(js_date, Formatter.DurationElapsedShort);
         return "Due " + fo_date
     }
+
+    function isOverdue(date) {
+        if (typeof date === "undefined")
+            return ""
+        var now = new Date();
+        var due = new Date(UT.convert_tdate_to_jsdate(date));
+        return (now>=due) ? true : false;
+    }
+
 
     function doneTask(tid) {
         var out = executer.executeTask([tid.toString(), "done"]);
