@@ -47,6 +47,19 @@ Page {
         id: watcher
     }
 
+    BackgroundItem {
+        anchors.fill: parent
+
+        Image {
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectFit
+            source: "../images/taskwarrior_head.png"
+            opacity: 0.2
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
+        }
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
