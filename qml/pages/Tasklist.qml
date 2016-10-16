@@ -54,11 +54,6 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
-                text: "test"
-                onClicked: pageStack.push(Qt.resolvedUrl("DateView.qml"))
-            }
-
-            MenuItem {
                 text: qsTr("Load Data")
                 onClicked: getTasks()
             }
