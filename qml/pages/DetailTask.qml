@@ -9,6 +9,7 @@ Dialog {
     property string description: getJsonField("description")
     property string project: getJsonField("project")
     property string due: getJsonField("due")
+    property string wait: getJsonField(("wait"))
 
     TaskExecuter {
         id: executer
@@ -43,12 +44,12 @@ Dialog {
         Item {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: queryicon.height
+            height: queryicon_due.height
             ValueButton {
-                label: "Due date"
+                label: "Due:"
                 value: formatDate(due)
                 anchors.left: parent.left
-                anchors.right: queryicon.left
+                anchors.right: queryicon_due.left
                 onClicked: {
                     var dialog;
                     if (due !== "") {
@@ -64,11 +65,43 @@ Dialog {
                 }
             }
             IconButton {
-                id: queryicon
+                id: queryicon_due
                 anchors.right: parent.right
                 icon.source: "image://theme/icon-m-clear"
                 onClicked: {
                     due = ""
+                }
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: queryicon_wait.height
+            ValueButton {
+                label: "Wait:"
+                value: formatDate(wait)
+                anchors.left: parent.left
+                anchors.right: queryicon_wait.left
+                onClicked: {
+                    var dialog;
+                    if (wait !== "") {
+                        var js_date = new Date(UT.convert_tdate_to_jsdate(wait));
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"), {date_value: js_date})
+                    } else {
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"))
+                    }
+                    dialog.accepted.connect(function() {
+                        console.log(dialog.date_value);
+                        wait = UT.convert_jsdate_to_tdate(dialog.date_value);
+                    });
+                }
+            }
+            IconButton {
+                id: queryicon_wait
+                anchors.right: parent.right
+                icon.source: "image://theme/icon-m-clear"
+                onClicked: {
+                    wait = ""
                 }
             }
         }
@@ -111,7 +144,7 @@ Dialog {
             var fo_date = Format.formatDate(js_date, Formatter.DateMedium);
             return fo_date;
         } else {
-            return qsTr("no due date set")
+            return qsTr("no date set")
         }
     }
 }

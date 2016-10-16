@@ -4,20 +4,20 @@
 <context>
     <name>DetailTask</name>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="32"/>
-        <location filename="../qml/pages/DetailTask.qml" line="34"/>
+        <location filename="../qml/pages/DetailTask.qml" line="33"/>
+        <location filename="../qml/pages/DetailTask.qml" line="35"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="39"/>
-        <location filename="../qml/pages/DetailTask.qml" line="41"/>
+        <location filename="../qml/pages/DetailTask.qml" line="40"/>
+        <location filename="../qml/pages/DetailTask.qml" line="42"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="114"/>
-        <source>no due date set</source>
+        <location filename="../qml/pages/DetailTask.qml" line="147"/>
+        <source>no date set</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
