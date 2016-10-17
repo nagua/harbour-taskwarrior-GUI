@@ -51,6 +51,7 @@ Dialog {
 
                 id: datePicker
                 date: dialog.date_value
+                daysVisible: true
             }
 
 //            Item {
