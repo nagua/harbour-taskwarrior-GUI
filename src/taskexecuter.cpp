@@ -5,11 +5,14 @@ TaskExecuter::TaskExecuter(QObject *parent) :
     QObject(parent),
     m_process(new QProcess(this))
 {
-
+    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TaskExecuter::finished);
 }
 
-QString TaskExecuter::executeTask(QStringList arguments, QString std_in)
+void TaskExecuter::executeTask(QStringList arguments, QString std_in)
 {
+    if(m_process->state() == QProcess::Running )
+        return;
+
     QString programm = "task";
     m_process->start(programm, arguments);
 
@@ -18,9 +21,15 @@ QString TaskExecuter::executeTask(QStringList arguments, QString std_in)
         m_process->write(data);
         m_process->closeWriteChannel();
     }
+}
 
-    m_process->waitForFinished();
-    QByteArray bytes = m_process->readAllStandardOutput();
-    QString str(bytes);
-    return str;
+void TaskExecuter::finished(int exitCode, QProcess::ExitStatus status) {
+    if(status == QProcess::NormalExit) {
+        QVariant vstdout = QVariant(QString(m_process->readAllStandardOutput()));
+        QVariant vstderr = QVariant(QString(m_process->readAllStandardError()));
+        QVariant vstatus(exitCode);
+        emit resultIsReady(vstatus, vstdout, vstderr);
+    } else {
+        //assert(true);
+    }
 }
