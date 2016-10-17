@@ -4,7 +4,7 @@ import "../lib/utils.js" as UT
 
 Dialog {
     id: dialog
-    property var date_value: new Date(Date.now())
+    property var date_value: getToday()
 
     function doRoundTo15Minutes() {
         if( timePicker.minute % 15 === 0 )
@@ -135,8 +135,16 @@ Dialog {
 
     onDone: {
         if ( result == DialogResult.Accepted ) {
-            console.log(datePicker.date)
             date_value = datePicker.date
+            console.log(date_value)
         }
+    }
+
+    function getToday() {
+        var d = new Date(Date.now());
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        return d;
     }
 }
