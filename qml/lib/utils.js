@@ -29,7 +29,15 @@ function convert_tdate_to_jsdate(date) {
 }
 
 function convert_jsdate_to_tdate(date) {
-    var tdate = Qt.formatDateTime(date, "yyyyMMddThhmmssZ");
+    // Ex: 2016-10-18T11:00:59Z
+    var year = date.getUTCFullYear();
+    var month = ("0" + (date.getUTCMonth() + 1)).slice(-2);
+    var day = ("0" + date.getUTCDate()).slice(-2);
+    var hour = ("0" + date.getUTCHours()).slice(-2);
+    var minute = ("0" + date.getUTCMinutes()).slice(-2);
+    var seconds = ("0" + date.getUTCSeconds()).slice(-2);
+
+    var tdate = year + month + day + "T" + hour + minute + seconds + "Z";
     return tdate;
 }
 
