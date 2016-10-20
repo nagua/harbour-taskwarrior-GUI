@@ -31,6 +31,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import harbour.taskwarrior 1.0
+import org.nemomobile.notifications 1.0
 import "../lib/utils.js" as UT
 
 
@@ -47,6 +48,10 @@ Page {
         id: watcher
     }
 
+    Notification {
+        id: notification
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent
@@ -55,23 +60,18 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Load Data")
-                onClicked: getTasks()
+                onClicked: executeExport()
             }
             MenuItem {
                 text: qsTr("Synchronize")
                 onClicked: {
-                    var out = executer.executeTask(["sync"]);
-                    console.log(out);
-                    getTasks();
+                    executeTask(["sync"]);
                 }
             }
             MenuItem {
                 text: qsTr("Add Task")
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"));
-                    dialog.accepted.connect(function() {
-                        getTasks();
-                    });
+                    pageStack.push(Qt.resolvedUrl("DetailTask.qml"));
                 }
             }
         }
@@ -153,10 +153,7 @@ Page {
             }
 
             onClicked: {
-                var dialog = pageStack.push(Qt.resolvedUrl("DetailTask.qml"), {taskData: model});
-                dialog.accepted.connect(function() {
-                    getTasks();
-                });
+                pageStack.push(Qt.resolvedUrl("DetailTask.qml"), {taskData: model});
             }
         }
 
@@ -179,28 +176,50 @@ Page {
     }
 
     Component.onCompleted: {
-        taskWindow.cover.reloadData.connect(getTasks);
-        watcher.TasksChanged.connect(getTasks);
+        taskWindow.cover.reloadData.connect(executeExport);
+        watcher.TasksChanged.connect(executeExport);
+        executer.resultIsReady.connect(getTaskOutput);
     }
 
     onTaskArgumentsChanged: {
-        getTasks();
+        executeExport();
     }
 
-    function getTasks()
-    {
+    function executeTask(args) {
         taskModel.ready = false;
+        executer.executeTask(args);
+    }
+
+    function executeExport() {
         // Get arguments from MainPage and split them on whitespace
         // also add "export"
         var args = taskArguments.match(/(?:[^\s"]+|"[^"]*")+/g);
         args.push("export");
 
-        // Run taskwarrior
-        var task_json_str = executer.executeTask(args);
-        console.log(task_json_str);
+        executeTask(args);
+    }
+
+    function getTaskOutput(status, stdout, stderr) {
+        console.log(status);
+        if (status !== 0) {
+            console.log(stderr);
+            notify(stderr);
+            taskModel.ready = true;
+            return;
+        }
+        console.log(stdout);
 
         // Parse JSON Data
-        var task_data = JSON.parse(task_json_str);
+        var task_data = "";
+        try {
+            task_data = JSON.parse(stdout);
+        }
+        catch(err) {
+            notify(stdout);
+            taskModel.ready = true;
+            return;
+        }
+
         // Sort data by urgency
         task_data.sort(function(a,b) {
             var aid = a.id;
@@ -263,10 +282,14 @@ Page {
         return (now>=due) ? true : false;
     }
 
-
     function doneTask(tid) {
-        var out = executer.executeTask([tid.toString(), "done"]);
-        getTasks();
-        console.log(out);
+        executeTask([tid.toString(), "done"]);
+    }
+
+    function notify(message) {
+        notification.previewBody = "Taskwarrior";
+        notification.previewSummary = message;
+        notification.close();
+        notification.publish();
     }
 }

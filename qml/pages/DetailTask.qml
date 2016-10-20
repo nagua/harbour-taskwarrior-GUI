@@ -82,8 +82,7 @@ Dialog {
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
-                out = executer.executeTask(["import", "-"], JSON.stringify(json));
-                console.log(out);
+                executer.executeTask(["import", "-"], JSON.stringify(json));
             }
             else {
                 json = UT.copyItem(taskData.rawData);
@@ -91,8 +90,7 @@ Dialog {
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
                 console.log(JSON.stringify(json));
-                out = executer.executeTask(["import", "-"], JSON.stringify(json));
-                console.log(out);
+                executer.executeTask(["import", "-"], JSON.stringify(json));
             }
         }
     }
