@@ -3,9 +3,13 @@
 
 TaskExecuter::TaskExecuter(QObject *parent) :
     QObject(parent),
-    m_process(new QProcess(this))
+    m_process(new QProcess(this)),
+    m_timer(new QTimer(this))
 {
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &TaskExecuter::finished);
+    connect(m_timer, &QTimer::timeout, this, &TaskExecuter::timeout);
+    m_timer->setInterval(5000);
+    m_timer->setSingleShot(true);
 }
 
 void TaskExecuter::executeTask(QStringList arguments, QString std_in)
@@ -15,6 +19,7 @@ void TaskExecuter::executeTask(QStringList arguments, QString std_in)
 
     QString programm = "task";
     m_process->start(programm, arguments);
+    m_timer->start();
 
     if(std_in != "") {
         QByteArray data = std_in.toUtf8();
@@ -24,6 +29,7 @@ void TaskExecuter::executeTask(QStringList arguments, QString std_in)
 }
 
 void TaskExecuter::finished(int exitCode, QProcess::ExitStatus status) {
+    m_timer->stop();
     if(status == QProcess::NormalExit) {
         QVariant vstdout = QVariant(QString(m_process->readAllStandardOutput()));
         QVariant vstderr = QVariant(QString(m_process->readAllStandardError()));
@@ -32,4 +38,10 @@ void TaskExecuter::finished(int exitCode, QProcess::ExitStatus status) {
     } else {
         //assert(true);
     }
+}
+
+void TaskExecuter::timeout()
+{
+    m_process->close();
+    emit resultIsReady(-1, "", "Process Timeout");
 }

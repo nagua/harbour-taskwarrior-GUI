@@ -289,6 +289,7 @@ Page {
     function notify(message) {
         notification.previewBody = "Taskwarrior";
         notification.previewSummary = message;
+        notification.close();
         notification.publish();
     }
 }

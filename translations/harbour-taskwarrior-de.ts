@@ -16,7 +16,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="114"/>
+        <location filename="../qml/pages/DetailTask.qml" line="112"/>
         <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
