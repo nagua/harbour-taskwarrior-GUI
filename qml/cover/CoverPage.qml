@@ -30,6 +30,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../lib/utils.js" as UT
 
 CoverBackground {
 
@@ -79,6 +80,7 @@ CoverBackground {
                 }
                 height: taskListView.itemHeight
                 text: model.description
+                font.bold: UT.isOverdue(model.due)
                 font.pixelSize: Theme.fontSizeSmall
                 truncationMode: TruncationMode.Fade
             }

@@ -56,3 +56,11 @@ function add_months_to_date(dateObj, months) {
     }
     return dateObj;
 }
+
+function isOverdue(date) {
+    if (typeof date === "undefined")
+        return ""
+    var now = new Date();
+    var due = new Date(convert_tdate_to_jsdate(date));
+    return (now>=due) ? true : false;
+}
