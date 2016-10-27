@@ -143,9 +143,7 @@ Dialog {
 
     function getToday() {
         var d = new Date(Date.now());
-        d.setHours(0);
-        d.setMinutes(0);
-        d.setSeconds(0);
+        d.setHours(0,0,0);
         return d;
     }
 }
