@@ -111,7 +111,7 @@ Page {
                     Label {
                         width: parent.width
                         text: description
-                        font.bold: isOverdue(model.rawData.due)
+                        font.bold: UT.isOverdue(model.rawData.due)
                         truncationMode: TruncationMode.Fade
                         color: delegator.highlighted ? Theme.highlightColor : Theme.primaryColor
                     }
@@ -272,14 +272,6 @@ Page {
         var js_date = UT.convert_tdate_to_jsdate(date);
         var fo_date = Format.formatDate(js_date, Formatter.DurationElapsedShort);
         return "Due " + fo_date
-    }
-
-    function isOverdue(date) {
-        if (typeof date === "undefined")
-            return ""
-        var now = new Date();
-        var due = new Date(UT.convert_tdate_to_jsdate(date));
-        return (now>=due) ? true : false;
     }
 
     function doneTask(tid) {
