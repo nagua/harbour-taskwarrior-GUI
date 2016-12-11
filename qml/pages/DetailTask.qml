@@ -32,6 +32,7 @@ Dialog {
             label: qsTr("Description")
             text: description
             placeholderText: qsTr("Description")
+            inputMethodHints: Qt.ImhNoAutoUppercase
         }
         TextField {
             id: projectfield
@@ -39,6 +40,7 @@ Dialog {
             label: qsTr("Project")
             text: project
             placeholderText: qsTr("Project")
+            inputMethodHints: Qt.ImhNoAutoUppercase
         }
         Item {
             anchors.left: parent.left
