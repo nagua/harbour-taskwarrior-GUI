@@ -91,6 +91,12 @@ CoverBackground {
 
     signal reloadData()
 
+    function showTaskList() {
+        while (pageStack.depth != 1) {
+            pageStack.pop()
+        }
+    }
+
     CoverActionList {
         id: coverAction
 
@@ -99,6 +105,15 @@ CoverBackground {
             onTriggered: {
                 var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailTask.qml"));
                 dialog.accepted.connect(function() { reloadData(); });
+                taskWindow.activate();
+            }
+        }
+        CoverAction {
+            iconSource: "image://theme/icon-cover-refresh"
+            onTriggered: {
+                showTaskList()
+                var dialog = pageStack.currentPage
+                dialog.executeTask(["sync"]);
                 taskWindow.activate();
             }
         }
