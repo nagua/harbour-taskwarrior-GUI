@@ -10,13 +10,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="39"/>
-        <location filename="../qml/pages/DetailTask.qml" line="41"/>
+        <location filename="../qml/pages/DetailTask.qml" line="40"/>
+        <location filename="../qml/pages/DetailTask.qml" line="42"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="112"/>
+        <location filename="../qml/pages/DetailTask.qml" line="114"/>
         <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
