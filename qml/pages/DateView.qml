@@ -119,7 +119,6 @@ Dialog {
             }
 
             Component.onCompleted: {
-                console.log("datepicker ist fertig")
                 onCompleted = true
             }
 
