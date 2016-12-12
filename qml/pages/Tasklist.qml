@@ -59,10 +59,6 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
-                text: qsTr("Load Data")
-                onClicked: executeExport()
-            }
-            MenuItem {
                 text: qsTr("Synchronize")
                 onClicked: {
                     executeTask(["sync"]);
