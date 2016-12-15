@@ -30,9 +30,14 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.taskwarrior 1.0
 import "../lib/utils.js" as UT
 
 CoverBackground {
+
+    TaskExecuter {
+        id: executer
+    }
 
     BackgroundItem {
         anchors.fill: parent
@@ -91,7 +96,7 @@ CoverBackground {
 
     signal reloadData()
 
-    function showTaskList() {
+    function clearPageStack() {
         while (pageStack.depth != 1) {
             pageStack.pop()
         }
@@ -111,10 +116,7 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
             onTriggered: {
-                showTaskList()
-                var dialog = pageStack.currentPage
-                dialog.executeTask(["sync"]);
-                taskWindow.activate();
+                executer.executeTask(["sync"]);
             }
         }
     }
