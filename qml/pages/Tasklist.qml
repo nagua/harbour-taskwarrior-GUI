@@ -61,7 +61,7 @@ Page {
             MenuItem {
                 text: qsTr("Synchronize")
                 onClicked: {
-                    executeTask(["sync"]);
+                    executeSync();
                 }
             }
             MenuItem {
@@ -174,6 +174,7 @@ Page {
 
     Component.onCompleted: {
         taskWindow.cover.reloadData.connect(executeExport);
+        taskWindow.cover.syncData.connect(executeSync);
         watcher.TasksChanged.connect(executeExport);
         executer.resultIsReady.connect(getTaskOutput);
     }
@@ -185,6 +186,10 @@ Page {
     function executeTask(args) {
         taskModel.ready = false;
         executer.executeTask(args);
+    }
+
+    function executeSync() {
+        executeTask(["sync"]);
     }
 
     function executeExport() {

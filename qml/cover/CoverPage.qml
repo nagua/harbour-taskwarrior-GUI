@@ -90,6 +90,7 @@ CoverBackground {
 
 
     signal reloadData()
+    signal syncData()
 
     CoverActionList {
         id: coverAction
@@ -100,6 +101,12 @@ CoverBackground {
                 var dialog = pageStack.push(Qt.resolvedUrl("../pages/DetailTask.qml"));
                 dialog.accepted.connect(function() { reloadData(); });
                 taskWindow.activate();
+            }
+        }
+        CoverAction {
+            iconSource: "image://theme/icon-cover-refresh"
+            onTriggered: {
+                syncData();
             }
         }
     }
