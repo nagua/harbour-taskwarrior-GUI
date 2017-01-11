@@ -5,6 +5,7 @@ import "../lib/utils.js" as UT
 Dialog {
     id: dialog
     property var date_value: getToday()
+    property var completed
 
     function doRoundTo15Minutes() {
         if( timePicker.minute % 15 === 0 )
@@ -52,6 +53,7 @@ Dialog {
                 id: datePicker
                 date: dialog.date_value
                 daysVisible: true
+                onDateChanged: completed ? accept() : {}
             }
 
 //            Item {
@@ -114,6 +116,10 @@ Dialog {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 20
+            }
+
+            Component.onCompleted: {
+                completed = true
             }
 
 //            TimePicker {
