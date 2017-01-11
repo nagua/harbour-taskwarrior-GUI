@@ -10,13 +10,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="39"/>
-        <location filename="../qml/pages/DetailTask.qml" line="41"/>
+        <location filename="../qml/pages/DetailTask.qml" line="40"/>
+        <location filename="../qml/pages/DetailTask.qml" line="42"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="112"/>
+        <location filename="../qml/pages/DetailTask.qml" line="114"/>
         <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,26 +58,21 @@
     <name>Tasklist</name>
     <message>
         <location filename="../qml/pages/Tasklist.qml" line="62"/>
-        <source>Load Data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Tasklist.qml" line="66"/>
         <source>Synchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="72"/>
+        <location filename="../qml/pages/Tasklist.qml" line="68"/>
         <source>Add Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="85"/>
+        <location filename="../qml/pages/Tasklist.qml" line="81"/>
         <source>Task list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Tasklist.qml" line="174"/>
+        <location filename="../qml/pages/Tasklist.qml" line="171"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>

@@ -88,6 +88,7 @@ Page {
             id: delegator
             width: parent.width
             property int tid: model.id
+            property string uuid: model.uuid
 
             Rectangle {
                 anchors.fill: parent
@@ -143,7 +144,7 @@ Page {
                     text: "Done"
                     onClicked: {
                         var timeout = 2000;
-                        remorse.execute(delegator, "Marking as done", function() { doneTask(tid) }, timeout);
+                        remorse.execute(delegator, "Marking as done", function() { doneTask(uuid) }, timeout);
                     }
                 }
             }
@@ -270,8 +271,8 @@ Page {
         return "Due " + fo_date
     }
 
-    function doneTask(tid) {
-        executeTask([tid.toString(), "done"]);
+    function doneTask(uuid) {
+        executeTask([uuid, "done"]);
     }
 
     function notify(message) {
