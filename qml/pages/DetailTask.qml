@@ -9,6 +9,7 @@ Dialog {
     property string description: getJsonField("description")
     property string project: getJsonField("project")
     property string due: getJsonField("due")
+    property string wait: getJsonField("wait")
 
     TaskExecuter {
         id: executer
@@ -45,12 +46,12 @@ Dialog {
         Item {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: queryicon.height
+            height: delete_due_icon.height
             ValueButton {
                 label: "Due date"
                 value: formatDate(due)
                 anchors.left: parent.left
-                anchors.right: queryicon.left
+                anchors.right: delete_due_icon.left
                 onClicked: {
                     var dialog;
                     if (due !== "") {
@@ -66,11 +67,43 @@ Dialog {
                 }
             }
             IconButton {
-                id: queryicon
+                id: delete_due_icon
                 anchors.right: parent.right
                 icon.source: "image://theme/icon-m-clear"
                 onClicked: {
                     due = ""
+                }
+            }
+        }
+        Item {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: delete_wait_icon.height
+            ValueButton {
+                label: "Wait until"
+                value: formatDate(wait)
+                anchors.left: parent.left
+                anchors.right: delete_wait_icon.left
+                onClicked: {
+                    var dialog;
+                    if (wait !== "") {
+                        var js_date = new Date(UT.convert_tdate_to_jsdate(wait));
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"), {date_value: js_date})
+                    } else {
+                        dialog = pageStack.push(Qt.resolvedUrl("DateView.qml"))
+                    }
+                    dialog.accepted.connect(function() {
+                        console.log(dialog.date_value);
+                        wait = UT.convert_jsdate_to_tdate(dialog.date_value);
+                    });
+                }
+            }
+            IconButton {
+                id: delete_wait_icon
+                anchors.right: parent.right
+                icon.source: "image://theme/icon-m-clear"
+                onClicked: {
+                    wait = ""
                 }
             }
         }
@@ -84,6 +117,8 @@ Dialog {
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
+                json["wait"] = wait !== "" ? wait : undefined
+                console.log(JSON.stringify(json));
                 executer.executeTask(["import", "-"], JSON.stringify(json));
             }
             else {
@@ -91,6 +126,7 @@ Dialog {
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
+                json["wait"] = wait !== "" ? wait : undefined
                 console.log(JSON.stringify(json));
                 executer.executeTask(["import", "-"], JSON.stringify(json));
             }

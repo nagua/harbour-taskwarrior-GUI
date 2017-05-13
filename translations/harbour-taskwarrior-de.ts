@@ -4,19 +4,19 @@
 <context>
     <name>DetailTask</name>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="32"/>
-        <location filename="../qml/pages/DetailTask.qml" line="34"/>
+        <location filename="../qml/pages/DetailTask.qml" line="33"/>
+        <location filename="../qml/pages/DetailTask.qml" line="35"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="40"/>
-        <location filename="../qml/pages/DetailTask.qml" line="42"/>
+        <location filename="../qml/pages/DetailTask.qml" line="41"/>
+        <location filename="../qml/pages/DetailTask.qml" line="43"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DetailTask.qml" line="114"/>
+        <location filename="../qml/pages/DetailTask.qml" line="150"/>
         <source>no due date set</source>
         <translation type="unfinished"></translation>
     </message>
@@ -85,27 +85,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Viewlist.qml" line="96"/>
+        <location filename="../qml/pages/Viewlist.qml" line="104"/>
         <source>Task views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Viewlist.qml" line="109"/>
+        <location filename="../qml/pages/Viewlist.qml" line="117"/>
         <source>Custom query</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Viewlist.qml" line="110"/>
+        <location filename="../qml/pages/Viewlist.qml" line="118"/>
         <source>Enter custom query</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Viewlist.qml" line="150"/>
+        <location filename="../qml/pages/Viewlist.qml" line="158"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Viewlist.qml" line="164"/>
+        <location filename="../qml/pages/Viewlist.qml" line="172"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>

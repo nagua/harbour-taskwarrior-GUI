@@ -74,6 +74,14 @@ Page {
             ListElement {
                 lid: -1
                 page: "Tasklist.qml"
+                name: "Waiting"
+                query: "status:waiting"
+                section: "Smart"
+            }
+
+            ListElement {
+                lid: -1
+                page: "Tasklist.qml"
                 name: "Due today"
                 query: "+OVERDUE or +DUETODAY"
                 section: "Smart"
