@@ -8,6 +8,7 @@ Dialog {
     property var taskData;
     property string description: getJsonField("description")
     property string project: getJsonField("project")
+    property variant tags: getJsonField("tags")
     property string due: getJsonField("due")
     property string wait: getJsonField("wait")
 
@@ -41,6 +42,14 @@ Dialog {
             label: qsTr("Project")
             text: project
             placeholderText: qsTr("Project")
+            inputMethodHints: Qt.ImhNoAutoUppercase
+        }
+        TextField {
+            id: tagsfield
+            width: parent.width
+            label: qsTr("Tags")
+            text: tags.toString()
+            placeholderText: qsTr("Tags")
             inputMethodHints: Qt.ImhNoAutoUppercase
         }
         Item {
@@ -116,6 +125,7 @@ Dialog {
             if (typeof taskData == "undefined") {
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
+                json["tags"] = tagsfield.text !== "" ? tagsfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
                 json["wait"] = wait !== "" ? wait : undefined
                 console.log(JSON.stringify(json));
@@ -125,6 +135,7 @@ Dialog {
                 json = UT.copyItem(taskData.rawData);
                 json["description"] = descriptionfield.text;
                 json["project"] = projectfield.text !== "" ? projectfield.text : undefined
+                json["tags"] = tagsfield.text !== "" ? tagsfield.text : undefined
                 json["due"] = due !== "" ? due : undefined
                 json["wait"] = wait !== "" ? wait : undefined
                 console.log(JSON.stringify(json));
